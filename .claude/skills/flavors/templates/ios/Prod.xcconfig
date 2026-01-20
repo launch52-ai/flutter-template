@@ -1,0 +1,15 @@
+#include "Release.xcconfig"
+
+// Production flavor configuration
+// This file is used when running: flutter run --flavor prod
+
+FLUTTER_TARGET=lib/main.dart
+
+// Bundle identifier (no suffix for production)
+PRODUCT_BUNDLE_IDENTIFIER={{BUNDLE_ID}}
+
+// Display name shown on home screen (clean name for production)
+DISPLAY_NAME={{APP_NAME}}
+
+// Flavor name (used by Firebase copy script)
+FLAVOR=prod

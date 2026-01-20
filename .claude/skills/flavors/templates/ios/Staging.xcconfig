@@ -1,0 +1,15 @@
+#include "Release.xcconfig"
+
+// Staging flavor configuration
+// This file is used when running: flutter run --flavor staging
+
+FLUTTER_TARGET=lib/main.dart
+
+// Bundle identifier with .staging suffix
+PRODUCT_BUNDLE_IDENTIFIER={{BUNDLE_ID}}.staging
+
+// Display name shown on home screen
+DISPLAY_NAME={{APP_NAME}} (Staging)
+
+// Flavor name (used by Firebase copy script)
+FLAVOR=staging

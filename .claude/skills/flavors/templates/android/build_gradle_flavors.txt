@@ -1,0 +1,23 @@
+// Add this block inside the android {} block in android/app/build.gradle
+// Place after defaultConfig {} and before buildTypes {}
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        dev {
+            dimension "environment"
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "{{APP_NAME}} (Dev)"
+        }
+        // Uncomment for staging flavor:
+        // staging {
+        //     dimension "environment"
+        //     applicationIdSuffix ".staging"
+        //     resValue "string", "app_name", "{{APP_NAME}} (Staging)"
+        // }
+        prod {
+            dimension "environment"
+            // No suffix for production
+            resValue "string", "app_name", "{{APP_NAME}}"
+        }
+    }

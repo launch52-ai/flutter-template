@@ -1,0 +1,15 @@
+#include "Debug.xcconfig"
+
+// Development flavor configuration
+// This file is used when running: flutter run --flavor dev
+
+FLUTTER_TARGET=lib/main.dart
+
+// Bundle identifier with .dev suffix
+PRODUCT_BUNDLE_IDENTIFIER={{BUNDLE_ID}}.dev
+
+// Display name shown on home screen
+DISPLAY_NAME={{APP_NAME}} (Dev)
+
+// Flavor name (used by Firebase copy script)
+FLAVOR=dev
