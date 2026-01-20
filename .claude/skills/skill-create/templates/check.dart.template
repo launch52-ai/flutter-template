@@ -1,0 +1,355 @@
+#!/usr/bin/env dart
+// ignore_for_file: avoid_print
+
+import 'dart:io';
+
+/// {{SKILL_NAME}} audit script for Flutter projects.
+///
+/// Detects common {{SKILL_DOMAIN}} issues:
+/// - {{ISSUE_TYPE_1}}
+/// - {{ISSUE_TYPE_2}}
+/// - {{ISSUE_TYPE_3}}
+///
+/// Usage:
+///   dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart
+///   dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --feature {{feature}}
+///   dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --json
+///   dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --fix
+///   dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --help
+void main(List<String> args) async {
+  final help = args.contains('--help') || args.contains('-h');
+  final jsonOutput = args.contains('--json');
+  final fix = args.contains('--fix');
+  final featureFilter = _getArgValue(args, '--feature');
+
+  if (help) {
+    _printHelp();
+    return;
+  }
+
+  if (!jsonOutput) {
+    print('');
+    print('═══════════════════════════════════════════════════════════');
+    print('  {{SKILL_TITLE}} Audit');
+    print('═══════════════════════════════════════════════════════════');
+    print('');
+  }
+
+  final issues = <AuditIssue>[];
+  final warnings = <AuditIssue>[];
+  final passed = <String>[];
+
+  // Run checks
+  await _check{{Category1}}(issues, warnings, passed,
+      feature: featureFilter, verbose: !jsonOutput);
+  await _check{{Category2}}(issues, warnings, passed,
+      feature: featureFilter, verbose: !jsonOutput);
+  await _check{{Category3}}(issues, warnings, passed,
+      feature: featureFilter, verbose: !jsonOutput);
+
+  // Auto-fix if requested
+  if (fix) {
+    _autoFix(issues, warnings);
+  }
+
+  // Output results
+  if (jsonOutput) {
+    _printJsonResults(issues, warnings, passed);
+  } else {
+    _printResults(issues, warnings, passed);
+  }
+
+  // Exit code
+  if (issues.isNotEmpty) {
+    exit(1);
+  }
+}
+
+// ============================================================
+// CHECK FUNCTIONS
+// ============================================================
+
+Future<void> _check{{Category1}}(
+  List<AuditIssue> issues,
+  List<AuditIssue> warnings,
+  List<String> passed, {
+  String? feature,
+  bool verbose = true,
+}) async {
+  if (verbose) print('{{EMOJI_1}} Checking {{category1}}...\n');
+
+  // TODO: Implement check logic
+  // Example: Check if required files exist
+
+  // if (condition) {
+  //   issues.add(AuditIssue(
+  //     category: '{{Category1}}',
+  //     file: filePath,
+  //     line: lineNumber,
+  //     message: 'Issue description',
+  //     fix: 'How to fix',
+  //   ));
+  // } else {
+  //   passed.add('{{Category1}}: Check passed');
+  // }
+
+  if (verbose) print('');
+}
+
+Future<void> _check{{Category2}}(
+  List<AuditIssue> issues,
+  List<AuditIssue> warnings,
+  List<String> passed, {
+  String? feature,
+  bool verbose = true,
+}) async {
+  if (verbose) print('{{EMOJI_2}} Checking {{category2}}...\n');
+
+  // TODO: Implement check logic
+
+  if (verbose) print('');
+}
+
+Future<void> _check{{Category3}}(
+  List<AuditIssue> issues,
+  List<AuditIssue> warnings,
+  List<String> passed, {
+  String? feature,
+  bool verbose = true,
+}) async {
+  if (verbose) print('{{EMOJI_3}} Checking {{category3}}...\n');
+
+  // TODO: Implement check logic
+
+  if (verbose) print('');
+}
+
+// ============================================================
+// AUTO-FIX
+// ============================================================
+
+void _autoFix(List<AuditIssue> issues, List<AuditIssue> warnings) {
+  print('');
+  print('🔧 Attempting auto-fixes...\n');
+
+  var fixedCount = 0;
+
+  // TODO: Implement auto-fix logic for fixable issues
+  // Example:
+  // for (final issue in issues) {
+  //   if (issue.isFixable) {
+  //     // Apply fix
+  //     fixedCount++;
+  //   }
+  // }
+
+  if (fixedCount == 0) {
+    print('   No automatic fixes available.');
+  } else {
+    print('\n   Fixed $fixedCount issue(s). Re-run to verify.');
+  }
+
+  print('');
+}
+
+// ============================================================
+// OUTPUT
+// ============================================================
+
+void _printResults(
+  List<AuditIssue> issues,
+  List<AuditIssue> warnings,
+  List<String> passed,
+) {
+  print('═══════════════════════════════════════════════════════════');
+  print('  Results');
+  print('═══════════════════════════════════════════════════════════');
+  print('');
+
+  // Print passed
+  if (passed.isNotEmpty) {
+    print('✅ Passed (${passed.length}):');
+    for (final item in passed) {
+      print('   ✓ $item');
+    }
+    print('');
+  }
+
+  // Print warnings
+  if (warnings.isNotEmpty) {
+    print('⚠️  Warnings (${warnings.length}):');
+    for (final warning in warnings) {
+      print('   ⚠ [${warning.category}] ${warning.message}');
+      if (warning.file != null) {
+        print('     File: ${warning.file}:${warning.line}');
+      }
+      print('     Fix: ${warning.fix}');
+    }
+    print('');
+  }
+
+  // Print issues
+  if (issues.isNotEmpty) {
+    print('❌ Issues (${issues.length}):');
+    for (final issue in issues) {
+      print('   ✗ [${issue.category}] ${issue.message}');
+      if (issue.file != null) {
+        print('     File: ${issue.file}:${issue.line}');
+      }
+      print('     Fix: ${issue.fix}');
+    }
+    print('');
+  }
+
+  // Summary
+  print('───────────────────────────────────────────────────────────');
+  if (issues.isEmpty && warnings.isEmpty) {
+    print('');
+    print('🎉 All checks passed!');
+  } else if (issues.isEmpty) {
+    print('');
+    print('⚠️  ${warnings.length} warning(s) found.');
+  } else {
+    print('');
+    print('❌ ${issues.length} issue(s) must be fixed.');
+    print('');
+    print('See: .claude/skills/{{SKILL_NAME}}/SKILL.md');
+  }
+  print('');
+}
+
+void _printJsonResults(
+  List<AuditIssue> issues,
+  List<AuditIssue> warnings,
+  List<String> passed,
+) {
+  final result = {
+    'valid': issues.isEmpty,
+    'summary': {
+      'passed': passed.length,
+      'warnings': warnings.length,
+      'issues': issues.length,
+    },
+    'passed': passed,
+    'warnings': warnings.map((w) => {
+      return {
+        'category': w.category,
+        'file': w.file,
+        'line': w.line,
+        'message': w.message,
+        'fix': w.fix,
+      };
+    }).toList(),
+    'issues': issues.map((i) => {
+      return {
+        'category': i.category,
+        'file': i.file,
+        'line': i.line,
+        'message': i.message,
+        'fix': i.fix,
+      };
+    }).toList(),
+  };
+
+  print(_jsonEncode(result));
+}
+
+String _jsonEncode(Object obj) {
+  if (obj == null) return 'null';
+  if (obj is String) return '"${obj.replaceAll('"', '\\"')}"';
+  if (obj is num || obj is bool) return '$obj';
+  if (obj is List) return '[${obj.map(_jsonEncode).join(',')}]';
+  if (obj is Map) {
+    final pairs = obj.entries.map((e) => '"${e.key}":${_jsonEncode(e.value)}');
+    return '{${pairs.join(',')}}';
+  }
+  return 'null';
+}
+
+// ============================================================
+// HELP
+// ============================================================
+
+void _printHelp() {
+  print('''
+{{SKILL_TITLE}} Audit Tool
+
+Checks your Flutter project for {{SKILL_DOMAIN}} issues.
+
+USAGE:
+  dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart [options]
+
+OPTIONS:
+  --feature <name>  Only check specific feature
+  --json            Output as JSON (for CI)
+  --fix             Auto-fix simple issues
+  -h, --help        Show this help
+
+EXAMPLES:
+  dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart
+  dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --feature auth
+  dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --json
+  dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --fix
+
+CHECKS PERFORMED:
+  {{Category1}}:
+    • {{CHECK_1}}
+    • {{CHECK_2}}
+
+  {{Category2}}:
+    • {{CHECK_3}}
+    • {{CHECK_4}}
+
+  {{Category3}}:
+    • {{CHECK_5}}
+    • {{CHECK_6}}
+
+SEE ALSO:
+  .claude/skills/{{SKILL_NAME}}/SKILL.md
+  .claude/skills/{{SKILL_NAME}}/checklist.md
+''');
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+
+String? _getArgValue(List<String> args, String flag) {
+  final index = args.indexOf(flag);
+  if (index == -1 || index + 1 >= args.length) return null;
+  final value = args[index + 1];
+  if (value.startsWith('-')) return null;
+  return value;
+}
+
+bool _fileExists(String path) => File(path).existsSync();
+
+bool _directoryExists(String path) => Directory(path).existsSync();
+
+String _readFile(String path) {
+  try {
+    return File(path).readAsStringSync();
+  } catch (_) {
+    return '';
+  }
+}
+
+// ============================================================
+// TYPES
+// ============================================================
+
+class AuditIssue {
+  final String category;
+  final String? file;
+  final int? line;
+  final String message;
+  final String fix;
+
+  const AuditIssue({
+    required this.category,
+    this.file,
+    this.line,
+    required this.message,
+    required this.fix,
+  });
+}

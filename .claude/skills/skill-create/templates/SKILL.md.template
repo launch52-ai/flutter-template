@@ -1,0 +1,157 @@
+---
+name: {{SKILL_NAME}}
+description: {{DESCRIPTION}}. Use when {{TRIGGER_SCENARIOS}}.
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+---
+
+# {{SKILL_TITLE}}
+
+{{BRIEF_DESCRIPTION}}
+
+## When to Use This Skill
+
+- {{SCENARIO_1}}
+- {{SCENARIO_2}}
+- {{SCENARIO_3}}
+- User asks "{{TRIGGER_WORD_1}}", "{{TRIGGER_WORD_2}}", or "{{TRIGGER_WORD_3}}"
+
+## When NOT to Use This Skill
+
+- {{ANTI_SCENARIO_1}} - Use `/{{OTHER_SKILL_1}}` instead
+- {{ANTI_SCENARIO_2}} - Use `/{{OTHER_SKILL_2}}` instead
+
+## Questions to Ask
+
+1. **{{QUESTION_CATEGORY_1}}:** {{QUESTION_1}}
+2. **{{QUESTION_CATEGORY_2}}:** {{QUESTION_2}}
+3. **{{QUESTION_CATEGORY_3}}:** {{QUESTION_3}}
+
+## Quick Reference
+
+### Key Concepts
+
+| Concept | Description |
+|---------|-------------|
+| {{CONCEPT_1}} | {{DESCRIPTION_1}} |
+| {{CONCEPT_2}} | {{DESCRIPTION_2}} |
+| {{CONCEPT_3}} | {{DESCRIPTION_3}} |
+
+### Commands
+
+```bash
+# {{COMMAND_DESCRIPTION}}
+dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart
+
+# {{COMMAND_DESCRIPTION_2}}
+dart run .claude/skills/{{SKILL_NAME}}/scripts/check.dart --feature {{feature}}
+```
+
+## Workflow
+
+### Phase 1: {{PHASE_1_NAME}}
+
+1. {{STEP_1}}
+2. {{STEP_2}}
+3. {{STEP_3}}
+
+### Phase 2: {{PHASE_2_NAME}}
+
+1. {{STEP_4}}
+2. {{STEP_5}}
+3. {{STEP_6}}
+
+### Phase 3: {{PHASE_3_NAME}}
+
+1. {{STEP_7}}
+2. {{STEP_8}}
+3. {{STEP_9}}
+
+## Core API
+
+```dart
+// {{API_DESCRIPTION}}
+{{CORE_API_EXAMPLE}}
+```
+
+## File Structure
+
+After using this skill:
+
+```
+lib/features/{{feature}}/
+├── domain/
+│   └── {{DOMAIN_FILES}}
+├── data/
+│   └── {{DATA_FILES}}
+└── presentation/
+    └── {{PRESENTATION_FILES}}
+```
+
+## Failure Types
+
+| Type | When | UI Action |
+|------|------|-----------|
+| `{{Failure_1}}` | {{WHEN_1}} | {{ACTION_1}} |
+| `{{Failure_2}}` | {{WHEN_2}} | {{ACTION_2}} |
+
+## Guides
+
+| File | Content |
+|------|---------|
+| [{{GUIDE_1}}-guide.md]({{GUIDE_1}}-guide.md) | {{GUIDE_1_DESCRIPTION}} |
+| [{{GUIDE_2}}-guide.md]({{GUIDE_2}}-guide.md) | {{GUIDE_2_DESCRIPTION}} |
+| [checklist.md](checklist.md) | Verification checklist |
+
+## Templates
+
+| Template | Purpose |
+|----------|---------|
+| `templates/{{TEMPLATE_1}}` | {{TEMPLATE_1_PURPOSE}} |
+| `templates/{{TEMPLATE_2}}` | {{TEMPLATE_2_PURPOSE}} |
+
+## Reference Files
+
+**See:** `reference/` for complete implementations:
+
+- `reference/models/` - {{MODELS_DESCRIPTION}}
+- `reference/repositories/` - {{REPOSITORIES_DESCRIPTION}}
+- `reference/providers/` - {{PROVIDERS_DESCRIPTION}}
+
+## Checklist
+
+**{{CATEGORY_1}}:**
+- [ ] {{CHECKLIST_ITEM_1}}
+- [ ] {{CHECKLIST_ITEM_2}}
+- [ ] {{CHECKLIST_ITEM_3}}
+
+**{{CATEGORY_2}}:**
+- [ ] {{CHECKLIST_ITEM_4}}
+- [ ] {{CHECKLIST_ITEM_5}}
+- [ ] {{CHECKLIST_ITEM_6}}
+
+**{{CATEGORY_3}}:**
+- [ ] {{CHECKLIST_ITEM_7}}
+- [ ] {{CHECKLIST_ITEM_8}}
+
+## Related Skills
+
+- `/{{RELATED_1}}` - {{RELATED_1_DESCRIPTION}}
+- `/{{RELATED_2}}` - {{RELATED_2_DESCRIPTION}}
+- `/{{RELATED_3}}` - {{RELATED_3_DESCRIPTION}}
+
+## Common Issues
+
+### {{ISSUE_1_TITLE}}
+
+{{ISSUE_1_SOLUTION}}
+
+### {{ISSUE_2_TITLE}}
+
+{{ISSUE_2_SOLUTION}}
+
+## Next Steps
+
+After running this skill:
+1. `/{{NEXT_SKILL_1}}` - {{NEXT_SKILL_1_DESCRIPTION}}
+2. `/{{NEXT_SKILL_2}}` - {{NEXT_SKILL_2_DESCRIPTION}}
+3. `/{{NEXT_SKILL_3}}` - {{NEXT_SKILL_3_DESCRIPTION}}

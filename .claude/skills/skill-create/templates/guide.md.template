@@ -1,0 +1,102 @@
+# {{TOPIC}} Guide
+
+{{BRIEF_INTRO}}
+
+---
+
+## Overview
+
+{{OVERVIEW_TEXT}}
+
+### Key Concepts
+
+| Concept | Description |
+|---------|-------------|
+| {{CONCEPT_1}} | {{DESCRIPTION_1}} |
+| {{CONCEPT_2}} | {{DESCRIPTION_2}} |
+| {{CONCEPT_3}} | {{DESCRIPTION_3}} |
+
+---
+
+## {{SECTION_1_TITLE}}
+
+{{SECTION_1_EXPLANATION}}
+
+**See:** `reference/{{FILE_1}}.dart`
+
+### Example
+
+```dart
+// Short example (< 10 lines)
+{{SHORT_CODE_EXAMPLE}}
+```
+
+---
+
+## {{SECTION_2_TITLE}}
+
+{{SECTION_2_EXPLANATION}}
+
+### Step 1: {{STEP_1}}
+
+{{STEP_1_DETAILS}}
+
+### Step 2: {{STEP_2}}
+
+{{STEP_2_DETAILS}}
+
+### Step 3: {{STEP_3}}
+
+{{STEP_3_DETAILS}}
+
+---
+
+## {{SECTION_3_TITLE}}
+
+{{SECTION_3_EXPLANATION}}
+
+| Option | When to Use | Notes |
+|--------|-------------|-------|
+| {{OPTION_1}} | {{WHEN_1}} | {{NOTES_1}} |
+| {{OPTION_2}} | {{WHEN_2}} | {{NOTES_2}} |
+| {{OPTION_3}} | {{WHEN_3}} | {{NOTES_3}} |
+
+---
+
+## Common Patterns
+
+### Pattern 1: {{PATTERN_1_NAME}}
+
+{{PATTERN_1_EXPLANATION}}
+
+**See:** `reference/{{PATTERN_1_FILE}}.dart`
+
+### Pattern 2: {{PATTERN_2_NAME}}
+
+{{PATTERN_2_EXPLANATION}}
+
+**See:** `reference/{{PATTERN_2_FILE}}.dart`
+
+---
+
+## Troubleshooting
+
+### {{ISSUE_1}}
+
+**Cause:** {{CAUSE_1}}
+
+**Fix:** {{FIX_1}}
+
+### {{ISSUE_2}}
+
+**Cause:** {{CAUSE_2}}
+
+**Fix:** {{FIX_2}}
+
+---
+
+## Next Steps
+
+- [{{RELATED_GUIDE_1}}.md]({{RELATED_GUIDE_1}}.md) - {{RELATED_1_DESCRIPTION}}
+- [{{RELATED_GUIDE_2}}.md]({{RELATED_GUIDE_2}}.md) - {{RELATED_2_DESCRIPTION}}
+- `/{{RELATED_SKILL}}` - {{RELATED_SKILL_DESCRIPTION}}
