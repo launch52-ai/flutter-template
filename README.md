@@ -52,9 +52,11 @@ A collection of 27 specialized skills that Claude Code uses to generate producti
 
 **Prerequisites:** [Claude Code CLI](https://claude.ai/download)
 
-1. **Fork & clone**
-   - Click **Fork** on GitHub to create your own copy
-   - Or clone directly:
+1. **Create your repository**
+
+   Click **[Use this template](https://github.com/launch52-ai/flutter-template/generate)** → **Create a new repository**
+
+   Or clone directly:
    ```bash
    git clone https://github.com/launch52-ai/flutter-template.git my-app
    cd my-app
