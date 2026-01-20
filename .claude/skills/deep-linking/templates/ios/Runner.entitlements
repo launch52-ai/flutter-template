@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Template: iOS Entitlements for Universal Links
+
+  Location: ios/Runner/Runner.entitlements
+
+  Usage:
+  1. Add Associated Domains capability in Xcode first
+  2. Replace YOUR_DOMAIN with your actual domain
+  3. Add multiple domains if needed (staging, www, etc.)
+
+  Note: Do NOT include https:// or paths - just the domain
+-->
+<plist version="1.0">
+<dict>
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <!-- Production domain -->
+        <string>applinks:YOUR_DOMAIN.com</string>
+
+        <!-- Optional: www subdomain -->
+        <!-- <string>applinks:www.YOUR_DOMAIN.com</string> -->
+
+        <!-- Optional: Staging domain (remove for production builds) -->
+        <!-- <string>applinks:staging.YOUR_DOMAIN.com</string> -->
+
+        <!-- Optional: Developer mode for faster testing (iOS 14+) -->
+        <!-- <string>applinks:YOUR_DOMAIN.com?mode=developer</string> -->
+    </array>
+</dict>
+</plist>

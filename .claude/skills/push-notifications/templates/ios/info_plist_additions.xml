@@ -1,0 +1,21 @@
+<!-- Template: Info.plist additions for push notifications -->
+<!--
+Location: ios/Runner/Info.plist
+
+Usage:
+1. Open ios/Runner/Info.plist
+2. Add these entries inside the root <dict> element
+3. These entries are REQUIRED for push notifications to work
+-->
+
+<!-- Background Modes: Required for receiving notifications -->
+<key>UIBackgroundModes</key>
+<array>
+    <string>fetch</string>
+    <string>remote-notification</string>
+</array>
+
+<!-- Optional: Disable Firebase swizzling for manual notification handling -->
+<!-- Only add if you need custom AppDelegate handling -->
+<!-- <key>FirebaseAppDelegateProxyEnabled</key>
+<false/> -->

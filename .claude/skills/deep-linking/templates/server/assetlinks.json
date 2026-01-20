@@ -1,0 +1,14 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.yourapp",
+      "sha256_cert_fingerprints": [
+        "DEBUG_SHA256_FINGERPRINT_HERE",
+        "RELEASE_SHA256_FINGERPRINT_HERE",
+        "PLAY_STORE_SHA256_FINGERPRINT_HERE"
+      ]
+    }
+  }
+]

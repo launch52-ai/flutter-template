@@ -1,0 +1,79 @@
+// Template: build.gradle additions for push notifications
+//
+// Location: android/app/build.gradle
+//
+// Usage:
+// 1. Open android/app/build.gradle
+// 2. Add these dependencies in the dependencies block
+
+// In android/app/build.gradle, add to dependencies:
+
+dependencies {
+    // Firebase BoM (Bill of Materials) - manages Firebase dependency versions
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+
+    // Firebase Cloud Messaging
+    implementation 'com.google.firebase:firebase-messaging'
+
+    // ... your other dependencies
+}
+
+// Also ensure google-services plugin is applied at the bottom of the file:
+// apply plugin: 'com.google.gms.google-services'
+
+// ===========================================================================
+// FULL android/app/build.gradle EXAMPLE
+// ===========================================================================
+/*
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace "com.example.yourapp"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+
+    // ... rest of android config
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    // Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-messaging'
+}
+
+// Apply google-services plugin LAST
+apply plugin: 'com.google.gms.google-services'
+*/
+
+// ===========================================================================
+// android/build.gradle (PROJECT LEVEL) ADDITIONS
+// ===========================================================================
+/*
+In android/build.gradle (project level), ensure classpath is present:
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // If using older Gradle setup (not using plugins block)
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+Or if using plugins block in settings.gradle:
+
+// settings.gradle
+plugins {
+    id "com.google.gms.google-services" version "4.4.2" apply false
+}
+*/

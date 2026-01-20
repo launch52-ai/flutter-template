@@ -1,0 +1,53 @@
+<!-- Template: AndroidManifest.xml additions for push notifications -->
+<!--
+Location: android/app/src/main/AndroidManifest.xml
+
+Usage:
+1. Open android/app/src/main/AndroidManifest.xml
+2. Add these meta-data entries inside the <application> element
+3. The notification channel ID must match the one in push_notification_service.dart
+-->
+
+<!-- Default notification channel (required for Android 8.0+) -->
+<!-- The channel_id must match the AndroidNotificationChannel id in Dart code -->
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_channel_id"
+    android:value="high_importance_channel" />
+
+<!-- Optional: Custom notification icon (must be a drawable resource) -->
+<!-- Create res/mipmap/ic_notification.png or use existing icon -->
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@mipmap/ic_launcher" />
+
+<!-- Optional: Custom notification color -->
+<!-- Create res/values/colors.xml with notification_color if using -->
+<!-- <meta-data
+    android:name="com.google.firebase.messaging.default_notification_color"
+    android:resource="@color/notification_color" /> -->
+
+<!--
+Full example AndroidManifest.xml structure:
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="your_app"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+
+        <!- - FCM meta-data entries go here - ->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="high_importance_channel" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <activity
+            android:name=".MainActivity"
+            ...
+        </activity>
+
+    </application>
+</manifest>
+-->

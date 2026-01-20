@@ -1,0 +1,92 @@
+<!--
+  Template: Android App Links Intent Filters
+
+  Location: android/app/src/main/AndroidManifest.xml
+
+  Usage:
+  1. Add these intent-filters inside the <activity> tag for MainActivity
+  2. Replace YOUR_DOMAIN with your actual domain
+  3. Update pathPrefix values to match your deep link paths
+
+  Note: android:autoVerify="true" enables App Links (no chooser dialog)
+-->
+
+<!-- Add these intent-filters to MainActivity in AndroidManifest.xml -->
+
+<!-- App Links: HTTPS deep links (verified, no chooser) -->
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+
+    <!-- Production domain with specific paths -->
+    <data
+        android:scheme="https"
+        android:host="YOUR_DOMAIN.com"
+        android:pathPrefix="/products"/>
+    <data
+        android:scheme="https"
+        android:host="YOUR_DOMAIN.com"
+        android:pathPrefix="/users"/>
+    <data
+        android:scheme="https"
+        android:host="YOUR_DOMAIN.com"
+        android:pathPrefix="/orders"/>
+</intent-filter>
+
+<!-- Optional: www subdomain -->
+<!--
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <data
+        android:scheme="https"
+        android:host="www.YOUR_DOMAIN.com"
+        android:pathPrefix="/products"/>
+</intent-filter>
+-->
+
+<!-- Optional: Custom URL scheme (fallback, shows chooser if multiple handlers) -->
+<!--
+<intent-filter>
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <data android:scheme="myapp"/>
+</intent-filter>
+-->
+
+<!--
+  FULL EXAMPLE - Complete MainActivity with deep links:
+
+  <activity
+      android:name=".MainActivity"
+      android:exported="true"
+      android:launchMode="singleTop"
+      android:theme="@style/LaunchTheme"
+      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+      android:hardwareAccelerated="true"
+      android:windowSoftInputMode="adjustResize">
+
+      <intent-filter>
+          <action android:name="android.intent.action.MAIN"/>
+          <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+
+      <intent-filter android:autoVerify="true">
+          <action android:name="android.intent.action.VIEW"/>
+          <category android:name="android.intent.category.DEFAULT"/>
+          <category android:name="android.intent.category.BROWSABLE"/>
+          <data
+              android:scheme="https"
+              android:host="YOUR_DOMAIN.com"
+              android:pathPrefix="/products"/>
+          <data
+              android:scheme="https"
+              android:host="YOUR_DOMAIN.com"
+              android:pathPrefix="/users"/>
+      </intent-filter>
+
+  </activity>
+-->
