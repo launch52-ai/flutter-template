@@ -1,0 +1,5 @@
+<!-- Add to ios/Runner/Info.plist inside the <dict> element -->
+
+<!-- Face ID Usage Description (Required) -->
+<key>NSFaceIDUsageDescription</key>
+<string>We use Face ID to securely unlock the app and protect your data.</string>

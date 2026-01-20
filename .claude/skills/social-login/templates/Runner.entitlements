@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  iOS Runner.entitlements for Apple Sign-In
+
+  This file is typically auto-generated when you add the
+  "Sign in with Apple" capability in Xcode.
+
+  Location: ios/Runner/Runner.entitlements
+
+  To add manually:
+  1. Open ios/Runner.xcworkspace in Xcode
+  2. Select Runner target
+  3. Go to Signing & Capabilities
+  4. Click + Capability
+  5. Add "Sign in with Apple"
+
+  Or copy this file to ios/Runner/ and add to Xcode project.
+-->
+<plist version="1.0">
+<dict>
+    <key>com.apple.developer.applesignin</key>
+    <array>
+        <string>Default</string>
+    </array>
+</dict>
+</plist>

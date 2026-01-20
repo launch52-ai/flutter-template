@@ -1,0 +1,35 @@
+<!--
+  Android AndroidManifest.xml additions for Social Login
+
+  Add this intent-filter inside the <activity> tag in:
+  android/app/src/main/AndroidManifest.xml
+
+  Replace {YOUR_BUNDLE_ID} with your actual bundle ID.
+  Example: com.company.myapp
+
+  This enables deep linking for Apple Sign-In OAuth callback on Android.
+-->
+
+<!-- Deep link for Apple Sign-In OAuth callback (Android) -->
+<intent-filter>
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <!-- IMPORTANT: Replace {YOUR_BUNDLE_ID} with your bundle ID -->
+    <data
+        android:scheme="{YOUR_BUNDLE_ID}"
+        android:host="login-callback"/>
+</intent-filter>
+
+<!--
+  Example for bundle ID com.company.myapp:
+
+  <intent-filter>
+      <action android:name="android.intent.action.VIEW"/>
+      <category android:name="android.intent.category.DEFAULT"/>
+      <category android:name="android.intent.category.BROWSABLE"/>
+      <data
+          android:scheme="com.company.myapp"
+          android:host="login-callback"/>
+  </intent-filter>
+-->

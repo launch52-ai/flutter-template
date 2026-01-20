@@ -1,0 +1,32 @@
+<!--
+  iOS Info.plist additions for Social Login
+
+  Add these entries to ios/Runner/Info.plist inside the main <dict> tag.
+  Replace {REVERSED_GOOGLE_IOS_CLIENT_ID} with your reversed Google iOS Client ID.
+
+  Example: If your GOOGLE_IOS_CLIENT_ID is:
+    123456789012-abcdefghijklmnop.apps.googleusercontent.com
+  Then REVERSED_GOOGLE_IOS_CLIENT_ID is:
+    com.googleusercontent.apps.123456789012-abcdefghijklmnop
+-->
+
+<!-- Google Sign-In URL Scheme -->
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <!-- IMPORTANT: Replace with your REVERSED Google iOS Client ID -->
+            <string>{REVERSED_GOOGLE_IOS_CLIENT_ID}</string>
+        </array>
+    </dict>
+</array>
+
+<!-- Allow querying Google apps for sign-in -->
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>google</string>
+    <string>googlechrome</string>
+</array>
