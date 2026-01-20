@@ -1,0 +1,51 @@
+# Analysis options for Flutter project
+#
+# Strict linting rules for clean, consistent code.
+
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Ignore for Freezed @JsonKey annotations
+    invalid_annotation_target: ignore
+  exclude:
+    # Exclude generated files from analysis
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "lib/core/i18n/translations.g.dart"
+
+linter:
+  rules:
+    # Style
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    always_declare_return_types: true
+
+    # Final / Const
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_const_literals_to_create_immutables: true
+
+    # Safety
+    avoid_print: true
+    avoid_dynamic_calls: true
+    avoid_type_to_string: true
+    cancel_subscriptions: true
+    close_sinks: true
+
+    # Clarity
+    avoid_redundant_argument_values: true
+    avoid_unnecessary_containers: true
+    prefer_is_empty: true
+    prefer_is_not_empty: true
+    use_colored_box: true
+    use_decorated_box: true
+
+    # Null safety
+    avoid_null_checks_in_equality_operators: true
+    null_check_on_nullable_type_parameter: true
+
+    # Documentation (optional - enable for libraries)
+    # public_member_api_docs: true

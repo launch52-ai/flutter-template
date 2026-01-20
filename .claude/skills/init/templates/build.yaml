@@ -1,0 +1,53 @@
+# Build configuration for code generation
+#
+# Used by:
+# - slang (localization)
+# - freezed (immutable classes)
+# - json_serializable (JSON parsing)
+# - riverpod_generator (providers)
+
+targets:
+  $default:
+    builders:
+      # ===========================================================================
+      # SLANG (Localization)
+      # ===========================================================================
+      slang_build_runner:
+        options:
+          # Base locale
+          base_locale: en
+
+          # Where to find i18n files
+          input_directory: lib
+
+          # Recursively search for .i18n.yaml files
+          input_file_pattern: ".i18n.yaml"
+
+          # Output location
+          output_directory: lib/core/i18n
+
+          # Output filename
+          output_file_name: translations.g.dart
+
+          # Use build context for locale detection
+          flutter_integration: true
+
+          # Namespace translations by feature
+          # auth.i18n.yaml -> t.auth.*
+          # dashboard.i18n.yaml -> t.dashboard.*
+          namespaces: true
+
+          # Fallback to base locale for missing translations
+          fallback_strategy: base_locale
+
+      # ===========================================================================
+      # FREEZED (Optional configuration)
+      # ===========================================================================
+      # freezed:
+      #   options:
+      #     # Generate copyWith method
+      #     copy_with: true
+      #     # Generate == and hashCode
+      #     equal: true
+      #     # Make classes immutable by default
+      #     immutable: true

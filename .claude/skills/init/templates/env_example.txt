@@ -1,0 +1,29 @@
+# Environment Configuration
+#
+# Copy this file to .env and fill in your values.
+# NEVER commit .env to version control.
+#
+# cp .env.example .env
+
+# ===========================================================================
+# SUPABASE (if using)
+# ===========================================================================
+
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+
+# ===========================================================================
+# API (if using custom REST API)
+# ===========================================================================
+
+API_BASE_URL=https://api.yourapp.com
+
+# ===========================================================================
+# GOOGLE SIGN-IN (if using Social Login)
+# ===========================================================================
+
+# Web Client ID - Required for Android serverClientId
+GOOGLE_WEB_CLIENT_ID=xxxxx.apps.googleusercontent.com
+
+# iOS Client ID - Required for iOS
+GOOGLE_IOS_CLIENT_ID=xxxxx.apps.googleusercontent.com
