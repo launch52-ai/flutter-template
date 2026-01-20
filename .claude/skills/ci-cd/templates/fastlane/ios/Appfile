@@ -1,0 +1,13 @@
+# iOS Appfile
+#
+# Copy to: ios/fastlane/Appfile
+# Update values with your app's information
+
+# App Store Connect
+app_identifier("com.example.myapp")       # Bundle ID - CHANGE THIS
+apple_id("developer@example.com")          # Apple ID email - CHANGE THIS
+itc_team_id("123456789")                   # App Store Connect Team ID - CHANGE THIS
+team_id("XXXXXXXXXX")                       # Developer Portal Team ID - CHANGE THIS
+
+# For CI - use App Store Connect API instead of apple_id
+# api_key_path("fastlane/api_key.json")

@@ -1,0 +1,94 @@
+# Deploy iOS to Firebase App Distribution
+#
+# Copy to: .github/workflows/deploy-firebase-ios.yml
+#
+# Required secrets:
+#   FIREBASE_APP_ID_IOS - Firebase iOS App ID
+#   FIREBASE_SERVICE_ACCOUNT - Firebase service account JSON
+#   MATCH_PASSWORD - Fastlane match encryption password
+#   MATCH_GIT_BASIC_AUTHORIZATION - Base64 encoded git credentials
+#
+# Note: iOS Firebase distribution requires ad-hoc signed builds.
+# This workflow uses Fastlane match for code signing.
+# Set up match first: cd ios && fastlane match adhoc
+
+name: Deploy iOS to Firebase
+
+on:
+  push:
+    tags:
+      - 'v*-beta*'
+      - 'v*-alpha*'
+  workflow_dispatch:
+    inputs:
+      release_notes:
+        description: 'Release notes'
+        required: false
+        default: 'New build available'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy iOS to Firebase
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.0'
+          cache: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: ios
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: pods-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Install CocoaPods
+        run: cd ios && pod install
+
+      - name: Build and sign with Fastlane
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        run: |
+          cd ios
+          bundle exec fastlane build_adhoc
+
+      - name: Upload to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_IOS }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          groups: testers
+          file: build/ios/ipa/app-adhoc.ipa
+          releaseNotes: |
+            ${{ github.event.inputs.release_notes || format('Build from {0}', github.sha) }}
+
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}

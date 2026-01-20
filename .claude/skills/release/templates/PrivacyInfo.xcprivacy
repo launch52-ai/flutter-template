@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Privacy Manifest Template for Flutter Apps (iOS 17+)
+
+  INSTRUCTIONS:
+  1. Copy this file to ios/Runner/PrivacyInfo.xcprivacy
+  2. Add to Xcode: Right-click Runner > Add Files > Select this file
+  3. Uncomment API types your app uses (see comments below)
+  4. Remove unused API type declarations
+
+  REFERENCE:
+  https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
+-->
+<plist version="1.0">
+<dict>
+    <!-- Required API Types your app uses -->
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <!-- User Defaults (SharedPreferences) - Most Flutter apps need this -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <!-- CA92.1: Access info written by app itself -->
+                <string>CA92.1</string>
+            </array>
+        </dict>
+
+        <!-- Uncomment if your app checks file modification dates (caching, etc.) -->
+        <!--
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>C617.1</string>
+            </array>
+        </dict>
+        -->
+
+        <!-- Uncomment if your app checks disk space -->
+        <!--
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>E174.1</string>
+            </array>
+        </dict>
+        -->
+
+        <!-- Uncomment if your app uses system boot time -->
+        <!--
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>35F9.1</string>
+            </array>
+        </dict>
+        -->
+
+        <!-- Uncomment if your app checks keyboard state -->
+        <!--
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryActiveKeyboards</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>54BD.1</string>
+            </array>
+        </dict>
+        -->
+    </array>
+
+    <!-- Data your app collects (fill this in based on your app) -->
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array>
+        <!-- Example: If collecting email for account -->
+        <!--
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeEmailAddress</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+        -->
+    </array>
+
+    <!-- Set to true ONLY if you use IDFA for cross-app tracking -->
+    <key>NSPrivacyTracking</key>
+    <false/>
+
+    <!-- Tracking domains (only if NSPrivacyTracking is true) -->
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+</dict>
+</plist>

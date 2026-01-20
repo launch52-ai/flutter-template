@@ -1,0 +1,7 @@
+# Android Appfile
+#
+# Copy to: android/fastlane/Appfile
+# Update values with your app's information
+
+json_key_file("service-account.json")     # Path to service account JSON
+package_name("com.example.myapp")          # Package name - CHANGE THIS

@@ -1,0 +1,19 @@
+# iOS Matchfile
+#
+# Copy to: ios/fastlane/Matchfile
+# Update values with your configuration
+
+# Git repository for certificates - CHANGE THIS
+git_url("git@github.com:yourorg/certificates.git")
+
+# Storage type (git, google_cloud, s3)
+storage_mode("git")
+
+# App identifier(s) - CHANGE THIS
+app_identifier(["com.example.myapp"])
+
+# Default type
+type("appstore")
+
+# For CI environments - uncomment if using HTTPS
+# git_basic_authorization(ENV["MATCH_GIT_BASIC_AUTHORIZATION"])

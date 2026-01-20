@@ -1,0 +1,123 @@
+# Automated Release Workflow
+#
+# Copy to: .github/workflows/release.yml
+#
+# This workflow:
+# 1. Bumps version in pubspec.yaml
+# 2. Updates CHANGELOG.md
+# 3. Creates git commit and tag
+# 4. Creates GitHub Release
+
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      release_notes:
+        description: 'Release notes (will be added to CHANGELOG.md)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      tag: ${{ steps.bump.outputs.tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: bump
+        run: |
+          # Parse current version
+          CURRENT=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          VERSION=$(echo $CURRENT | cut -d'+' -f1)
+          BUILD=$(echo $CURRENT | cut -d'+' -f2)
+
+          MAJOR=$(echo $VERSION | cut -d'.' -f1)
+          MINOR=$(echo $VERSION | cut -d'.' -f2)
+          PATCH=$(echo $VERSION | cut -d'.' -f3)
+
+          case "${{ inputs.bump_type }}" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEW_BUILD=$((BUILD + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          FULL_VERSION="$NEW_VERSION+$NEW_BUILD"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$NEW_VERSION" >> $GITHUB_OUTPUT
+
+          # Update pubspec.yaml
+          sed -i "s/^version: .*/version: $FULL_VERSION/" pubspec.yaml
+
+          echo "Bumped version to $FULL_VERSION"
+
+      - name: Update CHANGELOG
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          VERSION="${{ steps.bump.outputs.version }}"
+
+          # Create new changelog entry
+          ENTRY="## [$VERSION] - $DATE
+
+          ${{ inputs.release_notes }}
+
+          "
+
+          # Prepend to CHANGELOG.md
+          if [ -f CHANGELOG.md ]; then
+            # Create temp file with new entry + existing content
+            echo "# Changelog
+
+          $ENTRY
+          $(tail -n +3 CHANGELOG.md)" > CHANGELOG.md.tmp
+            mv CHANGELOG.md.tmp CHANGELOG.md
+          else
+            echo "# Changelog
+
+          $ENTRY" > CHANGELOG.md
+          fi
+
+      - name: Commit and tag
+        run: |
+          git add pubspec.yaml CHANGELOG.md
+          git commit -m "Release ${{ steps.bump.outputs.tag }}"
+          git tag -a "${{ steps.bump.outputs.tag }}" -m "Release ${{ steps.bump.outputs.version }}"
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.bump.outputs.tag }}
+          name: ${{ steps.bump.outputs.tag }}
+          body: ${{ inputs.release_notes }}
+          draft: false
+          prerelease: false
