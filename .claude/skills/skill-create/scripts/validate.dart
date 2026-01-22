@@ -443,19 +443,22 @@ void _validateQuality(
     ));
   }
 
-  // W303: No code blocks > 10 lines
-  final codeBlockRegex = RegExp(r'```[\s\S]*?```');
-  for (final match in codeBlockRegex.allMatches(content)) {
+  // W303: No Dart code blocks > 10 lines in SKILL.md
+  final dartCodeBlockRegex = RegExp(r'```dart[\s\S]*?```');
+  for (final match in dartCodeBlockRegex.allMatches(content)) {
     final block = match.group(0)!;
     final blockLines = block.split('\n').length - 2; // Exclude ``` markers
     if (blockLines > 10) {
       warnings.add(ValidationIssue(
         code: 'W303',
-        message: 'Code block with $blockLines lines (> 10)',
-        fix: 'Move long code to reference/ files',
+        message: 'Dart code block with $blockLines lines (> 10) in SKILL.md',
+        fix: 'Move long Dart code to reference/ files',
       ));
     }
   }
+
+  // W307: No code blocks > 30 lines in guide files (quick reference limit)
+  _validateGuideCodeBlocks(skillPath, warnings, passed);
 
   // W305: Workflow has numbered steps
   if (content.contains('## Workflow')) {
@@ -636,6 +639,60 @@ void _validateCheckScript(
     ));
   } else {
     passed.add('W604: Check script has --json');
+  }
+}
+
+void _validateGuideCodeBlocks(
+  String skillPath,
+  List<ValidationIssue> warnings,
+  List<String> passed,
+) {
+  final skillDir = Directory(skillPath);
+  if (!skillDir.existsSync()) return;
+
+  // Only check Dart code blocks (not markdown/bash/yaml/etc)
+  final dartCodeBlockRegex = RegExp(r'```dart[\s\S]*?```');
+  var longBlockCount = 0;
+  const maxLines = 30; // Guide files allow longer Dart blocks for quick reference
+
+  for (final entity in skillDir.listSync(recursive: true)) {
+    if (entity is! File) continue;
+    final path = entity.path;
+
+    // Only check .md files that are NOT SKILL.md (already checked with stricter limit)
+    if (!path.endsWith('.md')) continue;
+    if (path.endsWith('SKILL.md')) continue;
+
+    final relativePath = path.replaceFirst('$skillPath/', '');
+    final content = entity.readAsStringSync();
+
+    for (final match in dartCodeBlockRegex.allMatches(content)) {
+      final block = match.group(0)!;
+      final blockLines = block.split('\n').length - 2; // Exclude ``` markers
+
+      if (blockLines > maxLines) {
+        warnings.add(ValidationIssue(
+          code: 'W307',
+          message: 'Dart code block with $blockLines lines (> $maxLines) in $relativePath',
+          fix: 'Move long Dart code to reference/ files for quick inline reference',
+        ));
+        longBlockCount++;
+
+        // Limit warnings to avoid spam
+        if (longBlockCount >= 5) {
+          warnings.add(ValidationIssue(
+            code: 'W307',
+            message: '... and more long Dart code blocks in guide files',
+            fix: 'Run with --report to see all issues',
+          ));
+          return;
+        }
+      }
+    }
+  }
+
+  if (longBlockCount == 0) {
+    passed.add('W307: Guide Dart code blocks OK (< $maxLines lines)');
   }
 }
 
@@ -1065,10 +1122,11 @@ GATE 2: CONTENT (Required)
 GATE 3: QUALITY (Recommended)
   W301  SKILL.md < 300 lines
   W302  SKILL.md < 200 lines (ideal)
-  W303  No code blocks > 10 lines
+  W303  No code blocks > 10 lines in SKILL.md
   W304  Checklist has > 3 items
   W305  Workflow has numbered steps
   W306  No skill boundary violations (i18n, design, a11y, testing content)
+  W307  No code blocks > 30 lines in guide files
   W401  All internal links resolve
   W501  Reference files have headers
   W502  Reference files have Location comment

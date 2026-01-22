@@ -103,10 +103,11 @@ Validates content quality and best practices.
 |-------|----------|--------------|
 | Line count | < 300 lines | W301 |
 | Ideal length | < 200 lines | W302 |
-| Code block size | No blocks > 10 lines | W303 |
+| Code block size (SKILL.md) | No blocks > 10 lines | W303 |
 | Checklist items | > 3 items in checklist | W304 |
 | Workflow steps | Numbered steps present | W305 |
 | Skill boundaries | No content belonging to other skills | W306 |
+| Code block size (guides) | No blocks > 30 lines | W307 |
 
 ### Link Validation
 

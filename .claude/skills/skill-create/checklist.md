@@ -143,8 +143,8 @@ Skills must not include detailed how-to content that belongs to other skills:
 For each guide file:
 - [ ] Clear title and purpose
 - [ ] Sections with horizontal rules
-- [ ] Code examples use `**See:** reference/path.dart` pattern
-- [ ] Short inline code only (< 10 lines)
+- [ ] Code examples < 30 lines for quick reference
+- [ ] Longer code uses `**See:** reference/path.dart` pattern
 - [ ] Links to related guides/skills
 
 ### 4.2 Reference Files (Code-Heavy/Auth skills)
