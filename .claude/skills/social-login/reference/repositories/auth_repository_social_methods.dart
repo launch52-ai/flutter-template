@@ -50,31 +50,44 @@ Future<AuthResult?> signInWithGoogle() async {
   final rawNonce = _generateRawNonce();
   final hashedNonce = _sha256ofString(rawNonce);
 
-  // Initialize Google Sign-In
+  // Sign out first to clear any cached credentials
+  // This prevents nonce mismatch errors from stale sessions
+  await GoogleSignIn.instance.signOut();
+
+  // Initialize Google Sign-In with nonce (requires google_sign_in ^7.0.0)
   // - serverClientId: Web Client ID (required for idToken on Android)
   // - clientId: iOS Client ID (required for iOS)
+  // - nonce: hashed nonce for security (Supabase validates against raw nonce)
   await GoogleSignIn.instance.initialize(
     serverClientId: dotenv.env['GOOGLE_WEB_CLIENT_ID'],
     clientId: Platform.isIOS ? dotenv.env['GOOGLE_IOS_CLIENT_ID'] : null,
     nonce: hashedNonce,
   );
 
-  final googleUser = await GoogleSignIn.instance.signIn();
-  if (googleUser == null) {
-    return null; // User cancelled
+  // In google_sign_in 7.x: authenticate() throws GoogleSignInException on cancel
+  final GoogleSignInAccount googleUser;
+  try {
+    googleUser = await GoogleSignIn.instance.authenticate();
+  } on GoogleSignInException catch (e) {
+    if (e.code == GoogleSignInExceptionCode.canceled) {
+      return null; // User cancelled
+    }
+    rethrow;
   }
 
-  final googleAuth = await googleUser.authentication;
+  // In google_sign_in 7.x: authentication is a getter, not a Future
+  final googleAuth = googleUser.authentication;
   final idToken = googleAuth.idToken;
   if (idToken == null) {
     throw const AuthException('No ID token received from Google');
   }
 
   // Sign in to Supabase with the Google ID token
+  // Pass raw nonce for Supabase to validate against hashed nonce in idToken
   final response = await _auth.signInWithIdToken(
     provider: OAuthProvider.google,
     idToken: idToken,
-    nonce: rawNonce, // Raw nonce for Supabase to validate
+    nonce: rawNonce,
   );
 
   await _persistSession(response.session);

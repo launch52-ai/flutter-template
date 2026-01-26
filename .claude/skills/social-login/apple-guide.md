@@ -167,10 +167,27 @@ Key points:
 2. **iOS native flow** - Uses `SignInWithApple.getAppleIDCredential()`
 3. **Android OAuth flow** - Opens browser, throws `OAuthPendingException`
 4. **Store Apple's name** - Only provided on first sign-in
+5. **Router redirect required** - GoRouter needs redirect to handle deep link URLs
 
 See also:
+- [reference/router/router_oauth_callback.dart](reference/router/router_oauth_callback.dart) - **CRITICAL:** Router redirect for deep links
 - [reference/screens/oauth_callback_screen.dart](reference/screens/oauth_callback_screen.dart) - Handles Android callback
 - [reference/exceptions/oauth_pending_exception.dart](reference/exceptions/oauth_pending_exception.dart) - Exception class
+
+### Android Deep Link Flow
+
+```
+1. User taps Apple Sign-In
+2. Browser opens to Apple → Supabase callback
+3. Supabase redirects to: bundle.id://login-callback?code=xxx
+4. Android receives deep link, opens app
+5. GoRouter receives: "bundle.id://login-callback?code=xxx" (full URL as location)
+6. Router redirect extracts query params, redirects to /login-callback?code=xxx
+7. OAuthCallbackScreen reconstructs URI, calls getSessionFromUrl()
+8. Session created, user data stored, navigates to dashboard
+```
+
+Without the router redirect, GoRouter throws `GoException: no routes for location`.
 
 ---
 
@@ -225,6 +242,36 @@ Apple Sign-In on iOS Simulator:
 1. Verify AndroidManifest.xml intent filter
 2. Check scheme matches your bundle ID
 3. Verify Supabase callback URL in Service ID
+
+### "GoException: no routes for location" on Android
+
+**Cause:** GoRouter receives the full deep link URL (e.g., `io.zangy://login-callback?code=xxx`) as the location, which doesn't match any route.
+
+**Solution:** Add a redirect to your GoRouter configuration:
+
+```dart
+redirect: (context, state) {
+  final uri = state.uri;
+  if (uri.scheme == 'your.bundle.id' && uri.host == 'login-callback') {
+    return '/login-callback?${uri.query}';
+  }
+  return null;
+},
+```
+
+See [reference/router/router_oauth_callback.dart](reference/router/router_oauth_callback.dart).
+
+### Stuck on Callback Screen / Returns to Login
+
+**Cause:** OAuth callback screen not storing user data or SharedPrefs flags.
+
+**Solution:** The callback screen must:
+1. Call `getSessionFromUrl()` with reconstructed URI
+2. Store user data in SecureStorage
+3. Update `hasUser` and `hasCompletedProfile` flags in SharedPrefs
+4. Then navigate to dashboard/profile completion
+
+See [reference/screens/oauth_callback_screen.dart](reference/screens/oauth_callback_screen.dart).
 
 ### "invalid_client" Error
 
@@ -281,7 +328,8 @@ This is normal - user closed the sign-in dialog. Handle gracefully by checking f
 - [ ] Tested browser flow on device
 
 **Code:**
-- [ ] Platform detection (iOS vs Android)
+- [ ] Apple button visible on BOTH platforms (no `if (Platform.isIOS)` wrapper)
+- [ ] Platform detection for auth FLOW only (native iOS vs OAuth Android)
 - [ ] Native flow for iOS
 - [ ] OAuth flow for Android
 - [ ] Name storage on first sign-in

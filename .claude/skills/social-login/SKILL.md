@@ -105,8 +105,12 @@ Add to Google Cloud Console: debug, release, Play Store SHA-1.
 |-------|-------|----------|
 | `DEVELOPER_ERROR` | SHA-1 mismatch | Add correct SHA-1 |
 | No idToken | Missing serverClientId | Set GOOGLE_WEB_CLIENT_ID |
+| `nonce mismatch` | Cached credentials or missing nonce | Call `signOut()` before `signIn()`, use nonce with Google |
 | `invalid_client` | Apple config wrong | Check Supabase Apple config |
 | No callback (Android) | Deep link wrong | Verify AndroidManifest |
+| `GoException: no routes` | Deep link URL not handled | Add router redirect to handle `bundle.id://login-callback` URLs |
+| Stuck on callback screen | Session not stored | Callback screen must store user data and update SharedPrefs flags |
+| Apple only on iOS | Wrong platform check | Show both buttons on both platforms - `Platform.isIOS` is for auth flow, not UI |
 
 ## Checklist
 
@@ -118,7 +122,10 @@ Add to Google Cloud Console: debug, release, Play Store SHA-1.
 - [ ] iOS: URL schemes added to Info.plist
 - [ ] iOS: Sign in with Apple capability added
 - [ ] Android: Deep link intent filter in AndroidManifest.xml
+- [ ] **Router redirect added** to handle deep link URLs (see implementation-guide Step 11)
 - [ ] OAuth callback route added to router
+- [ ] OAuth callback screen stores user data and updates SharedPrefs flags
+- [ ] **Both buttons visible on BOTH platforms** (no `if (Platform.isIOS)` on Apple button)
 - [ ] Cancellation handled silently (not shown as error)
 - [ ] `build_runner` executed successfully
 

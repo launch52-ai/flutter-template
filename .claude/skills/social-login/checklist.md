@@ -208,7 +208,7 @@ grep -l "SocialAuthRepository" lib/features/auth/data/repositories/
 - [ ] `AuthRepositoryImpl` implements `SocialAuthRepository`
 - [ ] `MockSocialAuthRepository` exists for testing
 - [ ] Nonce generation implemented
-- [ ] Platform detection for Apple Sign-In
+- [ ] Platform detection for Apple auth FLOW (native iOS vs OAuth Android) - NOT for hiding button
 - [ ] Errors mapped to `SocialAuthFailure` types
 
 ### Presentation Layer
@@ -220,13 +220,17 @@ grep -l "SocialAuthRepository" lib/features/auth/data/repositories/
 
 ### UI
 
-- [ ] Social login buttons in LoginScreen
-- [ ] `OAuthCallbackScreen` for Android callback
+- [ ] **Both Google and Apple buttons shown on BOTH platforms** (no `if (Platform.isIOS)` wrapper)
+- [ ] `OAuthCallbackScreen` for Android Apple callback
+
+> **Important:** Platform detection is for choosing the auth FLOW (native vs OAuth), NOT for hiding buttons. Users may switch devices and need to sign in with the same provider.
 
 ### Router
 
+- [ ] **GoRouter redirect added** to handle deep link URLs (`bundle.id://login-callback?code=...`)
 - [ ] `/login-callback` route configured
 - [ ] Route points to `OAuthCallbackScreen`
+- [ ] Redirect passes query params to callback route
 
 ---
 
@@ -359,6 +363,8 @@ flutter pub deps | grep -E "google_sign_in|sign_in_with_apple|crypto|supabase"
 |-------|-------|
 | Google: DEVELOPER_ERROR | SHA-1 fingerprint mismatch |
 | Google: No idToken | Missing serverClientId |
-| Apple: No callback (Android) | Deep link intent-filter |
+| Apple: No callback (Android) | Deep link intent-filter in AndroidManifest |
+| Apple: `GoException: no routes` | Router redirect missing for deep link URLs |
+| Apple: Stuck on callback screen | Callback screen not storing user data/flags |
 | Apple: invalid_client | Supabase Apple config |
 | Both: Token validation fails | Nonce handling (raw vs hashed) |

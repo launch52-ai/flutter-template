@@ -72,12 +72,18 @@ Social login follows Clean Architecture with separation of concerns:
 ```yaml
 # pubspec.yaml
 dependencies:
-  google_sign_in: ^7.2.0
+  google_sign_in: ^7.2.0      # Required: 7.x has nonce support for Supabase
   sign_in_with_apple: ^7.0.1
   crypto: ^3.0.6
   supabase_flutter: ^2.12.0
   flutter_dotenv: ^6.0.0
 ```
+
+**Important:** google_sign_in 7.x is required for proper Supabase integration:
+- Uses singleton pattern: `GoogleSignIn.instance.initialize()` / `.authenticate()`
+- Supports `nonce` parameter (required by Supabase to prevent replay attacks)
+- `authenticate()` throws `GoogleSignInException` on cancel (check `e.code == GoogleSignInExceptionCode.canceled`)
+- `authentication` is a getter, not a Future
 
 ---
 
@@ -175,7 +181,9 @@ Create a reusable branded button for social providers.
 
 ## Step 10: Login Screen Integration
 
-Add social login buttons to your login screen:
+Add social login buttons to your login screen.
+
+> **Important:** Show BOTH buttons on BOTH platforms. Do NOT wrap Apple button in `if (Platform.isIOS)`. Users switching devices need to sign in with the same provider. Platform detection is only for choosing the auth flow (native vs OAuth), not for hiding UI.
 
 ```dart
 // In your LoginScreen build method:
@@ -219,7 +227,51 @@ SocialLoginButton(
 
 ---
 
-## Step 11: OAuth Callback Screen
+## Step 11: Router Configuration (CRITICAL for Android Apple Sign-In)
+
+**IMPORTANT:** GoRouter receives deep links as full URLs (e.g., `io.zangy://login-callback?code=...`) which don't match standard route paths. You MUST add a redirect to handle this.
+
+**Template:** [reference/router/router_oauth_callback.dart](reference/router/router_oauth_callback.dart)
+
+**Location:** `lib/core/router/app_router.dart`
+
+Add both the redirect AND the route:
+
+```dart
+GoRouter(
+  // REQUIRED: Handle deep link OAuth callbacks
+  redirect: (context, state) {
+    final uri = state.uri;
+
+    // Handle deep link OAuth callbacks
+    if (uri.scheme == 'your.bundle.id' && uri.host == 'login-callback') {
+      return '$oauthCallback?${uri.query}';
+    }
+
+    // Fallback for path-style deep links
+    final path = uri.path;
+    if (path.startsWith('your.bundle.id://login-callback')) {
+      final deepLinkUri = Uri.parse(path);
+      return '$oauthCallback?${deepLinkUri.query}';
+    }
+
+    return null;
+  },
+  routes: [
+    // ... other routes ...
+    GoRoute(
+      path: '/login-callback',
+      builder: (context, state) => const OAuthCallbackScreen(),
+    ),
+  ],
+)
+```
+
+Replace `your.bundle.id` with your actual bundle ID (e.g., `io.zangy`, `com.example.myapp`).
+
+---
+
+## Step 12: OAuth Callback Screen
 
 Handle the deep link callback for Apple Sign-In on Android.
 
@@ -227,15 +279,12 @@ Handle the deep link callback for Apple Sign-In on Android.
 
 **Location:** `lib/features/auth/presentation/screens/oauth_callback_screen.dart`
 
----
-
-## Step 12: Router Configuration
-
-Add the OAuth callback route to your router.
-
-**Template:** [reference/router/router_oauth_callback.dart](reference/router/router_oauth_callback.dart)
-
-**Location:** `lib/core/router/app_router.dart`
+The callback screen must:
+1. Reconstruct the deep link URI from query params (passed by router redirect)
+2. Call `Supabase.getSessionFromUrl()` to exchange the code for a session
+3. Store user data in SecureStorage (userId, tokens, email, name)
+4. Update SharedPrefs flags (`hasUser`, `hasCompletedProfile`) for routing
+5. Navigate to dashboard or profile completion
 
 ---
 
@@ -304,4 +353,34 @@ if (credential.givenName != null || credential.familyName != null) {
   final fullName = '${credential.givenName ?? ''} ${credential.familyName ?? ''}'.trim();
   await secureStorage.write(key: StorageKeys.userFullName, value: fullName);
 }
+```
+
+---
+
+## Troubleshooting
+
+### Nonce Mismatch Error
+
+**Error:** `Passed nonce and nonce in id_token should either both exist or not`
+
+**Cause:** Cached Google credentials or missing nonce configuration.
+
+**Solution:**
+1. Ensure you're using `google_sign_in: ^7.2.0` (has nonce support)
+2. Call `GoogleSignIn.instance.signOut()` before `authenticate()` to clear cached state
+3. Pass hashed nonce to `initialize()` and raw nonce to Supabase `signInWithIdToken()`
+
+```dart
+final rawNonce = _generateRawNonce();
+final hashedNonce = _sha256ofString(rawNonce);
+
+await GoogleSignIn.instance.signOut();  // Clear cached credentials
+await GoogleSignIn.instance.initialize(nonce: hashedNonce, ...);
+final user = await GoogleSignIn.instance.authenticate();
+
+await supabase.auth.signInWithIdToken(
+  provider: OAuthProvider.google,
+  idToken: idToken,
+  nonce: rawNonce,  // Raw nonce, not hashed
+);
 ```

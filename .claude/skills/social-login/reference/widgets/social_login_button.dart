@@ -4,10 +4,20 @@
 //
 // A reusable button for social login providers.
 // Follows platform conventions for styling.
-
-import 'dart:io';
+//
+// Required assets (copy from skill assets to lib/assets/icons/):
+//   - assets/icons/google.svg
+//   - assets/icons/apple.svg
+//
+// Add to pubspec.yaml:
+//   flutter_svg: ^2.0.10+1
+//
+//   flutter:
+//     assets:
+//       - assets/icons/
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /// Social login provider types.
 enum SocialProvider { google, apple }
@@ -15,8 +25,8 @@ enum SocialProvider { google, apple }
 /// A branded button for social login providers.
 ///
 /// Follows platform design guidelines:
-/// - Google: Outlined style with Google "G" icon
-/// - Apple: Filled black/white based on theme
+/// - Google: Outlined style with official Google "G" logo
+/// - Apple: Filled black/white based on theme with Apple logo
 ///
 /// Usage:
 /// ```dart
@@ -87,12 +97,20 @@ final class SocialLoginButton extends StatelessWidget {
   Widget _buildIcon(bool isDark) {
     switch (provider) {
       case SocialProvider.google:
-        return const _GoogleIcon();
+        return SvgPicture.asset(
+          'assets/icons/google.svg',
+          width: 20,
+          height: 20,
+        );
       case SocialProvider.apple:
-        return Icon(
-          Icons.apple,
-          size: 24,
-          color: _getForegroundColor(isDark),
+        return SvgPicture.asset(
+          'assets/icons/apple.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(
+            _getForegroundColor(isDark),
+            BlendMode.srcIn,
+          ),
         );
     }
   }
@@ -124,36 +142,5 @@ final class SocialLoginButton extends StatelessWidget {
       case SocialProvider.apple:
         return BorderSide.none;
     }
-  }
-}
-
-/// Google "G" logo icon.
-///
-/// Uses the official Google colors for the logo.
-final class _GoogleIcon extends StatelessWidget {
-  const _GoogleIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    // Using a simple "G" text as placeholder
-    // Replace with actual Google logo asset or SVG in production
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(2),
-      ),
-      child: const Center(
-        child: Text(
-          'G',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF4285F4), // Google Blue
-          ),
-        ),
-      ),
-    );
   }
 }
