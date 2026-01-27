@@ -18,6 +18,37 @@ The data layer is the **only place** for:
 
 This keeps the domain pure while handling all serialization and external communication here.
 
+## CRITICAL: Layer Boundaries - DO NOT VIOLATE
+
+**This skill ONLY touches files in `data/`:**
+```
+lib/features/{feature}/data/
+├── models/        ✅ CREATE/EDIT (DTOs with Freezed)
+├── repositories/  ✅ CREATE/EDIT (implementations)
+└── datasources/   ✅ CREATE/EDIT (remote/local)
+```
+
+**NEVER touch these directories:**
+```
+lib/features/{feature}/domain/       ❌ FORBIDDEN
+lib/features/{feature}/presentation/ ❌ FORBIDDEN
+lib/features/{feature}/resources/    ❌ FORBIDDEN
+```
+
+**Why this matters:**
+- Domain entities are pure Dart - that's `/domain`'s job
+- Presentation states/notifiers consume repositories - that's `/presentation`'s job
+- If data changes require domain/presentation updates, STOP and tell user
+
+**If you need to:**
+- Add a field to domain entity → Tell user to run `/domain` first
+- Update notifier to use new repository method → Tell user to run `/presentation` after
+- Add new strings → Tell user to run `/i18n`
+
+**Allowed: Read-only access to domain layer for:**
+- Checking repository interface signatures (to implement them)
+- Checking entity fields (to map DTOs correctly)
+
 ## When to Use This Skill
 
 - After `/domain` has created entities and repository interfaces

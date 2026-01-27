@@ -18,6 +18,45 @@ The presentation layer is **domain-aware, data-blind**:
 
 This keeps the UI decoupled from data sources and serialization details.
 
+## CRITICAL: Layer Boundaries - DO NOT VIOLATE
+
+**This skill ONLY touches files in `presentation/` and `resources/`:**
+```
+lib/features/{feature}/presentation/
+├── providers/     ✅ CREATE/EDIT (states, notifiers)
+├── screens/       ✅ CREATE/EDIT
+├── widgets/       ✅ CREATE/EDIT
+└── notifiers/     ✅ CREATE/EDIT
+
+lib/features/{feature}/resources/
+└── {feature}_strings.dart  ✅ CREATE/EDIT (if adding UI strings)
+```
+
+**NEVER touch these directories:**
+```
+lib/features/{feature}/domain/  ❌ FORBIDDEN
+lib/features/{feature}/data/    ❌ FORBIDDEN
+```
+
+**Why this matters:**
+- Domain entities are pure Dart - that's `/domain`'s job
+- Data layer handles API/storage - that's `/data`'s job
+- If presentation needs require domain/data updates, STOP and tell user
+
+**If you need to:**
+- Add a field to domain entity → Tell user to run `/domain` first
+- Add a new repository method → Tell user to run `/data` first
+- Fix type mismatches → Identify which layer owns the type and tell user
+
+**Allowed: Read-only access to domain layer for:**
+- Importing domain entities (to use in states)
+- Importing repository interfaces (for provider injection)
+
+**FORBIDDEN: Any import from data layer:**
+- ❌ `import '../../data/models/...'`
+- ❌ `import '../../data/repositories/...'`
+- ❌ `import '../../data/datasources/...'`
+
 ## When to Use This Skill
 
 - After `/data` has implemented repositories

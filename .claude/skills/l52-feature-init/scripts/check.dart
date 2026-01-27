@@ -11,6 +11,7 @@
 /// Usage:
 ///   dart run .claude/skills/feature-init/scripts/check.dart              # Check all features
 ///   dart run .claude/skills/feature-init/scripts/check.dart --generate bookmarks  # Generate new feature
+///   dart run .claude/skills/feature-init/scripts/check.dart --extend credits call_rates  # Add to existing feature
 ///   dart run .claude/skills/feature-init/scripts/check.dart --validate auth       # Validate feature
 ///   dart run .claude/skills/feature-init/scripts/check.dart --help        # Show help
 
@@ -33,6 +34,7 @@ const expectedLayers = [
 void main(List<String> args) {
   final help = args.contains('--help') || args.contains('-h');
   final generate = args.contains('--generate') || args.contains('-g');
+  final extend = args.contains('--extend') || args.contains('-e');
   final validate = args.contains('--validate') || args.contains('-v');
 
   if (help) {
@@ -55,6 +57,23 @@ void main(List<String> args) {
       return;
     }
     _generateFeature(featureName);
+    return;
+  }
+
+  if (extend) {
+    final featureName = _getArgValue(args, '--extend') ??
+        _getArgValue(args, '-e');
+    final entityName = _getSecondArgValue(args, '--extend') ??
+        _getSecondArgValue(args, '-e');
+    if (featureName == null || entityName == null) {
+      print('❌ Please provide feature name and entity name:');
+      print('   dart run .claude/skills/feature-init/scripts/check.dart --extend feature_name entity_name');
+      print('');
+      print('Example:');
+      print('   dart run .claude/skills/feature-init/scripts/check.dart --extend credits call_rates');
+      return;
+    }
+    _extendFeature(featureName, entityName);
     return;
   }
 
@@ -433,6 +452,205 @@ void _generateFeature(String feature) {
 }
 
 // ============================================================
+// EXTEND FEATURE
+// ============================================================
+
+void _extendFeature(String feature, String entity) {
+  final featurePath = '$featuresDir/$feature';
+
+  if (!Directory(featurePath).existsSync()) {
+    print('❌ Feature "$feature" does not exist.');
+    print('');
+    print('Available features:');
+    for (final f in _discoverFeatures()) {
+      print('  - $f');
+    }
+    print('');
+    print('To create a new feature:');
+    print('  dart run .claude/skills/feature-init/scripts/check.dart --generate $feature');
+    return;
+  }
+
+  print('Extending feature "$feature" with "$entity"');
+  print('');
+
+  final entityPascal = _toPascalCase(entity);
+  final entityCamel = _toCamelCase(entity);
+  final featurePascal = _toPascalCase(feature);
+
+  // Create entity
+  final entityPath = '$featurePath/domain/entities/$entity.dart';
+  if (File(entityPath).existsSync()) {
+    print('  ⚠️  Entity already exists: $entityPath');
+  } else {
+    _writeFile(entityPath, _generateExtendEntity(entity, entityPascal));
+  }
+
+  // Create model
+  final modelPath = '$featurePath/data/models/${entity}_model.dart';
+  if (File(modelPath).existsSync()) {
+    print('  ⚠️  Model already exists: $modelPath');
+  } else {
+    _writeFile(modelPath, _generateExtendModel(entity, entityPascal));
+  }
+
+  // Create provider (simple async provider, not notifier)
+  final providerPath = '$featurePath/presentation/providers/${entity}_provider.dart';
+  if (File(providerPath).existsSync()) {
+    print('  ⚠️  Provider already exists: $providerPath');
+  } else {
+    _writeFile(providerPath, _generateExtendProvider(feature, entity, entityPascal, entityCamel, featurePascal));
+  }
+
+  // Create screen
+  final screenPath = '$featurePath/presentation/screens/${entity}_screen.dart';
+  if (File(screenPath).existsSync()) {
+    print('  ⚠️  Screen already exists: $screenPath');
+  } else {
+    _writeFile(screenPath, _generateExtendScreen(feature, entity, entityPascal, entityCamel));
+  }
+
+  print('');
+  print('───────────────────────────────────────────────────────');
+  print('');
+  print('✅ Extension scaffolding complete!');
+  print('');
+  print('📝 Manual steps required:');
+  print('');
+  print('  1. Add method to repository interface:');
+  print('     File: $featurePath/domain/repositories/${feature}_repository.dart');
+  print('     Add:  Future<List<$entityPascal>> get${entityPascal}s();');
+  print('');
+  print('  2. Add method to repository implementation:');
+  print('     File: $featurePath/data/repositories/${feature}_repository_impl.dart');
+  print('');
+  print('  3. Add method to mock repository (if exists):');
+  print('     File: $featurePath/data/repositories/mock_${feature}_repository.dart');
+  print('');
+  print('  4. Add method to remote datasource (if exists):');
+  print('     File: $featurePath/data/datasources/${feature}_remote_datasource.dart');
+  print('');
+  print('  5. Add strings to resources file or i18n');
+  print('');
+  print('  6. Add route to lib/core/router/app_router.dart');
+  print('');
+  print('  7. Run: dart run build_runner build --delete-conflicting-outputs');
+  print('');
+}
+
+String _generateExtendEntity(String entity, String pascal) {
+  return '''/// $pascal domain entity.
+///
+/// Pure domain model with no external dependencies.
+/// TODO: Add fields based on API response / requirements
+final class $pascal {
+  const $pascal({
+    // TODO: Add required fields
+    // Example:
+    // required this.id,
+    // required this.name,
+  });
+
+  // TODO: Add fields
+  // final String id;
+  // final String name;
+}
+''';
+}
+
+String _generateExtendModel(String entity, String pascal) {
+  return '''import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../domain/entities/$entity.dart';
+
+part '${entity}_model.freezed.dart';
+part '${entity}_model.g.dart';
+
+/// $pascal data transfer object.
+///
+/// TODO: Add fields matching API response with @JsonKey for snake_case
+@freezed
+sealed class ${pascal}Model with _\$${pascal}Model {
+  const factory ${pascal}Model({
+    // TODO: Add fields with @JsonKey for snake_case mapping
+    // Example:
+    // required String id,
+    // @JsonKey(name: 'created_at') required DateTime createdAt,
+  }) = _${pascal}Model;
+
+  const ${pascal}Model._();
+
+  factory ${pascal}Model.fromJson(Map<String, dynamic> json) =>
+      _\$${pascal}ModelFromJson(json);
+
+  /// Convert to domain entity.
+  $pascal toEntity() {
+    // TODO: Map model fields to entity
+    throw UnimplementedError();
+  }
+}
+''';
+}
+
+String _generateExtendProvider(String feature, String entity, String entityPascal, String entityCamel, String featurePascal) {
+  return '''import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../domain/entities/$entity.dart';
+import '${feature}_provider.dart';
+
+part '${entity}_provider.g.dart';
+
+/// Fetches $entityPascal list.
+///
+/// TODO: Update method name to match repository interface
+@riverpod
+Future<List<$entityPascal>> $entityCamel(${entityPascal}Ref ref) async {
+  final repository = ref.watch(${_toCamelCase(feature)}RepositoryProvider);
+  // TODO: Call the correct repository method
+  // return repository.get${entityPascal}s();
+  throw UnimplementedError();
+}
+''';
+}
+
+String _generateExtendScreen(String feature, String entity, String entityPascal, String entityCamel) {
+  return '''import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// TODO: Add imports
+// import '../../../../core/theme/app_colors.dart';
+// import '../providers/${entity}_provider.dart';
+
+/// $entityPascal screen.
+///
+/// TODO: Implement UI
+/// - Add proper imports
+/// - Watch provider
+/// - Handle loading/error/data states
+/// - Use AppStrings for text
+/// - Use AppColors for colors
+final class ${entityPascal}Screen extends ConsumerWidget {
+  const ${entityPascal}Screen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // TODO: Watch provider
+    // final asyncValue = ref.watch(${entityCamel}Provider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('$entityPascal'), // TODO: Use AppStrings
+      ),
+      body: const Center(
+        child: Text('TODO: Implement ${entityPascal}Screen'),
+      ),
+    );
+  }
+}
+''';
+}
+
+// ============================================================
 // FILE GENERATORS
 // ============================================================
 
@@ -739,6 +957,14 @@ String? _getArgValue(List<String> args, String flag) {
   return value;
 }
 
+String? _getSecondArgValue(List<String> args, String flag) {
+  final index = args.indexOf(flag);
+  if (index == -1 || index + 2 >= args.length) return null;
+  final value = args[index + 2];
+  if (value.startsWith('-')) return null;
+  return value;
+}
+
 String _toPascalCase(String input) {
   return input.split('_').map((word) {
     if (word.isEmpty) return word;
@@ -767,14 +993,16 @@ USAGE:
   dart run .claude/skills/feature-init/scripts/check.dart [options]
 
 OPTIONS:
-  -g, --generate <name>   Generate new feature scaffolding
-  -v, --validate <name>   Validate existing feature structure
-  -h, --help              Show this help message
+  -g, --generate <name>           Generate new feature scaffolding
+  -e, --extend <feature> <entity> Add entity/screen to existing feature
+  -v, --validate <name>           Validate existing feature structure
+  -h, --help                      Show this help message
 
 EXAMPLES:
-  dart run .claude/skills/feature-init/scripts/check.dart                    # Check all features
-  dart run .claude/skills/feature-init/scripts/check.dart -g bookmarks       # Generate bookmarks feature
-  dart run .claude/skills/feature-init/scripts/check.dart --validate auth    # Validate auth feature
+  dart run .claude/skills/feature-init/scripts/check.dart                           # Check all features
+  dart run .claude/skills/feature-init/scripts/check.dart -g bookmarks              # Generate bookmarks feature
+  dart run .claude/skills/feature-init/scripts/check.dart -e credits call_rates     # Add call_rates to credits feature
+  dart run .claude/skills/feature-init/scripts/check.dart --validate auth           # Validate auth feature
 
 FEATURE STRUCTURE:
   lib/features/{feature}/

@@ -21,6 +21,34 @@ This ensures the domain is:
 - Easily testable
 - Stable (changes least frequently)
 
+## CRITICAL: Layer Boundaries - DO NOT VIOLATE
+
+**This skill ONLY touches files in `domain/`:**
+```
+lib/features/{feature}/domain/
+├── entities/      ✅ CREATE/EDIT
+├── enums/         ✅ CREATE/EDIT
+├── repositories/  ✅ CREATE/EDIT (interface only)
+└── value_objects/ ✅ CREATE/EDIT
+```
+
+**NEVER touch these directories:**
+```
+lib/features/{feature}/data/         ❌ FORBIDDEN
+lib/features/{feature}/presentation/ ❌ FORBIDDEN
+lib/features/{feature}/resources/    ❌ FORBIDDEN
+```
+
+**Why this matters:**
+- Data layer adds `toEntity()` methods - that's `/data`'s job
+- Presentation layer consumes domain entities - that's `/presentation`'s job
+- If domain changes require data/presentation updates, STOP and tell user to run `/data` or `/presentation` next
+
+**If you need to:**
+- Add `toEntity()` to a model → Tell user to run `/data`
+- Update a state to use new entity → Tell user to run `/presentation`
+- Fix import errors in other layers → Tell user which skill to run
+
 ## When to Use This Skill
 
 - After `/feature-init` has created the folder structure
