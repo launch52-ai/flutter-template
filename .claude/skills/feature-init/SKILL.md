@@ -14,6 +14,40 @@ Initialize a new feature with Clean Architecture folder structure and skeleton f
 - User asks to "create feature", "init feature", "scaffold feature", or "add new feature"
 - Starting a new feature module
 
+## When NOT to Use This Skill
+
+- **Extending an existing feature** - If the feature folder already exists, just add to it
+- **Adding methods to existing repositories** - Edit the existing files instead
+- **Backend already has API, mobile just needs to integrate** - Check if a related feature exists first
+
+## BEFORE You Start - Mandatory Checks
+
+**ALWAYS run these checks before creating a new feature:**
+
+```bash
+# 1. Check if a related feature already exists
+ls -la lib/features/
+
+# 2. Search for related code (e.g., for "billing" or "payment")
+grep -r "billing\|payment\|stripe" lib/features/ --include="*.dart" -l
+
+# 3. Check the backend for existing APIs
+# Look at ../call-me/apps/api/src/ for existing modules
+```
+
+**If you find related code:**
+- DON'T create a new feature
+- EXTEND the existing feature instead
+- Add new methods to existing repositories/datasources
+
+**Example - Wrong vs Right:**
+
+| Scenario | Wrong | Right |
+|----------|-------|-------|
+| "Add Stripe payments" but `credits` feature exists | Create new `billing` feature | Add Stripe methods to `credits` |
+| "Add phone auth" but `auth` feature exists | Create new `phone_auth` feature | Add phone methods to `auth` |
+| "Add push notifications" and NO notification feature | - | Create new `notifications` feature |
+
 ## Dependency Rules
 
 ```
@@ -57,6 +91,16 @@ dart run .claude/skills/feature-init/scripts/check.dart --validate feature_name
 ```
 
 ## Workflow
+
+### 0. Check for Existing Features (MANDATORY)
+
+Before doing anything else:
+```bash
+ls -la lib/features/
+grep -ri "keyword" lib/features/ --include="*.dart" -l
+```
+
+If related feature exists → **STOP** - extend it instead of creating new.
 
 ### 1. Gather Requirements
 
@@ -102,6 +146,7 @@ After scaffolding, direct user to fill in details:
 
 ## Checklist
 
+- [ ] **Verified no related feature exists** (ran `ls lib/features/` and `grep`)
 - [ ] Feature folder created with snake_case name
 - [ ] Domain layer: entity, repository interface created
 - [ ] Data layer: model with `toEntity()`/`fromEntity()`, repository impl
