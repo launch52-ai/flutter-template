@@ -103,7 +103,7 @@ flutter analyze
 
 ## Output
 
-After running `/init`, the project will have:
+After running `/l52-init`, the project will have:
 
 ```
 project/
@@ -119,34 +119,34 @@ project/
 
 ## Next Steps
 
-After `/init`, run these skills in order:
+After `/l52-init`, run these skills in order:
 
 ### Core Setup (Required)
 
-1. `/core` - Generate theme, router, providers, services, error handling
+1. `/l52-core` - Generate theme, router, providers, services, error handling
 
 ### Authentication (Based on your selections)
 
-2. `/auth` - Generate auth feature scaffold
-3. `/social-login` - *(If you selected Social Login)*
-4. `/phone-auth` - *(If you selected Phone OTP)*
+2. `/l52-auth` - Generate auth feature scaffold
+3. `/l52-social-login` - *(If you selected Social Login)*
+4. `/l52-phone-auth` - *(If you selected Phone OTP)*
 
 ### Features
 
-5. `/feature-init dashboard` - Initialize dashboard feature
-6. `/feature-init settings` - Initialize settings feature
+5. `/l52-feature-init dashboard` - Initialize dashboard feature
+6. `/l52-feature-init settings` - Initialize settings feature
 
 ### Polish
 
-7. `/i18n` - Localize all strings
-8. `/testing` - Write tests
-9. `/design` - Review UI/UX
-10. `/a11y` - Accessibility audit
+7. `/l52-i18n` - Localize all strings
+8. `/l52-testing` - Write tests
+9. `/l52-design` - Review UI/UX
+10. `/l52-a11y` - Accessibility audit
 
 ### Release (When ready)
 
-11. `/release` - App store preparation
-12. `/ci-cd` - Automated builds *(optional)*
+11. `/l52-release` - App store preparation
+12. `/l52-ci-cd` - Automated builds *(optional)*
 
 ## Stored Configuration
 
@@ -196,13 +196,13 @@ flutter upgrade
 
 ## Related Skills
 
-- `/core` - Run immediately after init to create core infrastructure
-- `/auth` - Add authentication after core setup
-- `/feature-init` - Initialize feature scaffolds after auth
+- `/l52-core` - Run immediately after init to create core infrastructure
+- `/l52-auth` - Add authentication after core setup
+- `/l52-feature-init` - Initialize feature scaffolds after auth
 
 ## Checklist
 
-After running `/init`:
+After running `/l52-init`:
 
 - [ ] `flutter create` completed successfully
 - [ ] Dependencies added to pubspec.yaml

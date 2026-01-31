@@ -6,12 +6,12 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Auth - Base Authentication Scaffold
 
-Creates the authentication feature foundation with Clean Architecture. This skill generates shared infrastructure that `/social-login` and `/phone-auth` build upon.
+Creates the authentication feature foundation with Clean Architecture. This skill generates shared infrastructure that `/l52-social-login` and `/l52-phone-auth` build upon.
 
 ## When to Use This Skill
 
-- After `/core` skill completes
-- Before adding specific auth methods (`/social-login`, `/phone-auth`)
+- After `/l52-core` skill completes
+- Before adding specific auth methods (`/l52-social-login`, `/l52-phone-auth`)
 - Setting up auth from scratch
 - User asks to "add authentication" or "create auth"
 
@@ -142,22 +142,22 @@ repository.authStateChanges.listen((user) => ...);
 | `AuthSessionExpiredFailure` | Token expired | Re-login |
 | `AuthUnknownFailure` | Unexpected error | Generic error |
 
-Specific auth methods add their own failure types (see `/social-login`, `/phone-auth`).
+Specific auth methods add their own failure types (see `/l52-social-login`, `/l52-phone-auth`).
 
 ## Next Steps
 
-After running `/auth`, run these skills based on your selection:
+After running `/l52-auth`, run these skills based on your selection:
 
 | If Selected | Run | Creates |
 |-------------|-----|---------|
-| Social Login | `/social-login` | Google + Apple Sign-In |
-| Phone OTP | `/phone-auth` | Phone verification |
+| Social Login | `/l52-social-login` | Google + Apple Sign-In |
+| Phone OTP | `/l52-phone-auth` | Phone verification |
 | Email/Password | (built-in) | Email auth methods |
 
 Then:
-1. `/i18n auth` - Localize strings
-2. `/design` - Polish UI
-3. `/testing auth` - Write tests
+1. `/l52-i18n auth` - Localize strings
+2. `/l52-design` - Polish UI
+3. `/l52-testing auth` - Write tests
 
 ## Integration Architecture
 
@@ -202,8 +202,8 @@ Then:
 
 ## Related Skills
 
-- `/social-login` - Google + Apple Sign-In (extends auth)
-- `/phone-auth` - Phone OTP (extends auth)
-- `/core` - Run before auth (creates services)
-- `/design` - Login screen UI polish
-- `/i18n` - Localized auth strings
+- `/l52-social-login` - Google + Apple Sign-In (extends auth)
+- `/l52-phone-auth` - Phone OTP (extends auth)
+- `/l52-core` - Run before auth (creates services)
+- `/l52-design` - Login screen UI polish
+- `/l52-i18n` - Localized auth strings

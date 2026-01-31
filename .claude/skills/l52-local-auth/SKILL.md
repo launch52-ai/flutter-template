@@ -17,9 +17,9 @@ Local device authentication using biometrics (Face ID, Touch ID, fingerprint) an
 
 ## When NOT to Use This Skill
 
-- **Remote authentication** - Use `/auth`, `/social-login`, `/phone-auth`
-- **Session tokens** - Handled by `/auth` and `/data`
-- **Secure storage** - Already in `/core` (flutter_secure_storage)
+- **Remote authentication** - Use `/l52-auth`, `/l52-social-login`, `/l52-phone-auth`
+- **Session tokens** - Handled by `/l52-auth` and `/l52-data`
+- **Secure storage** - Already in `/l52-core` (flutter_secure_storage)
 
 ## Questions to Ask
 
@@ -104,7 +104,7 @@ Based on user answers:
 ### Phase 6: Verify
 
 ```bash
-dart run .claude/skills/local-auth/scripts/check.dart
+dart run .claude/skills/l52-local-auth/scripts/check.dart
 ```
 
 ## Core API
@@ -183,16 +183,16 @@ lib/core/
 
 ## Related Skills
 
-- `/auth` - Base authentication (this extends it for local unlock)
-- `/social-login`, `/phone-auth` - Remote auth methods
-- `/design` - Lock screen UI patterns
-- `/i18n` - Localized auth prompts
-- `/testing` - Test local auth flows
+- `/l52-auth` - Base authentication (this extends it for local unlock)
+- `/l52-social-login`, `/l52-phone-auth` - Remote auth methods
+- `/l52-design` - Lock screen UI patterns
+- `/l52-i18n` - Localized auth prompts
+- `/l52-testing` - Test local auth flows
 
 ## Next Steps
 
 After running this skill:
 1. Test on real device (simulators have limitations)
-2. Run `/i18n` for auth prompt strings
-3. Run `/design` for lock screen polish
-4. Run `/testing` for auth flow tests
+2. Run `/l52-i18n` for auth prompt strings
+3. Run `/l52-design` for lock screen polish
+4. Run `/l52-testing` for auth flow tests

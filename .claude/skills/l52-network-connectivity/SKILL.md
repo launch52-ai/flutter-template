@@ -17,10 +17,10 @@ Global network connectivity monitoring with automatic offline banner display. Us
 
 ## When NOT to Use This Skill
 
-- **Error handling for failed API calls** - Use `/data` which has `NetworkFailure` types
-- **Retry logic** - Handled in repository layer via `/data` patterns
-- **Offline data caching** - Use `/data` caching patterns
-- **NetworkFailure types** - Already in `/core` errors/failures.dart
+- **Error handling for failed API calls** - Use `/l52-data` which has `NetworkFailure` types
+- **Retry logic** - Handled in repository layer via `/l52-data` patterns
+- **Offline data caching** - Use `/l52-data` caching patterns
+- **NetworkFailure types** - Already in `/l52-core` errors/failures.dart
 
 ## Quick Reference
 
@@ -89,7 +89,7 @@ The `connectivity_plus` library can report false negatives when:
 ### Phase 4: Verify
 
 ```bash
-dart run .claude/skills/network-connectivity/scripts/check.dart
+dart run .claude/skills/l52-network-connectivity/scripts/check.dart
 ```
 
 ## File Structure
@@ -164,8 +164,8 @@ ref.read(actualConnectivityProvider.notifier).reportRequestSuccess();
 
 ## Related Skills
 
-- `/core` - Creates core infrastructure where connectivity files live
-- `/data` - NetworkFailure types for API errors, retry interceptors
+- `/l52-core` - Creates core infrastructure where connectivity files live
+- `/l52-data` - NetworkFailure types for API errors, retry interceptors
 
 ## Common Issues
 
@@ -195,5 +195,5 @@ If connectivity_plus reports offline but API requests work, ensure `Connectivity
 
 After running this skill:
 1. Test by toggling airplane mode
-2. Run `/i18n` for localization
-3. Run `/design` for UI polish
+2. Run `/l52-i18n` for localization
+3. Run `/l52-design` for UI polish

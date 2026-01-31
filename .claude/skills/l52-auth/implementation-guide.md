@@ -6,16 +6,16 @@ Step-by-step guide to implementing the base authentication feature.
 
 ## Overview
 
-The `/auth` skill creates the foundation that specific auth methods build upon:
+The `/l52-auth` skill creates the foundation that specific auth methods build upon:
 
 ```
-/auth (this skill)
+/l52-auth (this skill)
 ├── Creates: AuthRepository, AuthNotifier, AuthState, UserProfile, LoginScreen
 │
-├── /social-login
+├── /l52-social-login
 │   └── Adds: signInWithGoogle, signInWithApple, SocialLoginButton
 │
-└── /phone-auth
+└── /l52-phone-auth
     └── Adds: PhoneAuthRepository, PhoneAuthNotifier, country picker
 ```
 
@@ -198,7 +198,7 @@ Based on your selection, run the appropriate skills:
 ### Social Login (Google + Apple)
 
 ```bash
-/social-login
+/l52-social-login
 ```
 
 This will:
@@ -210,7 +210,7 @@ This will:
 ### Phone OTP
 
 ```bash
-/phone-auth
+/l52-phone-auth
 ```
 
 This will:
@@ -303,7 +303,7 @@ Future<void> signInWithEmail(String email, String password) async {
 Run the i18n skill to add localized strings:
 
 ```bash
-/i18n auth
+/l52-i18n auth
 ```
 
 Required strings:
@@ -411,17 +411,17 @@ Verify import paths match your project structure. Common fixes:
 After completing auth setup:
 
 1. **Add specific auth methods:**
-   - `/social-login` for Google + Apple
-   - `/phone-auth` for phone OTP
+   - `/l52-social-login` for Google + Apple
+   - `/l52-phone-auth` for phone OTP
 
 2. **Add i18n strings:**
-   - `/i18n auth`
+   - `/l52-i18n auth`
 
 3. **Write tests:**
-   - `/testing auth`
+   - `/l52-testing auth`
 
 4. **Polish UI:**
-   - `/design` to review login screen
+   - `/l52-design` to review login screen
 
 5. **Add accessibility:**
-   - `/a11y` to audit auth screens
+   - `/l52-a11y` to audit auth screens

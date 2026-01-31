@@ -7,7 +7,7 @@ Verification checklist for App Store, Play Store, and GDPR compliant account del
 ## Quick Validation
 
 ```bash
-dart run .claude/skills/account-deletion/scripts/check.dart
+dart run .claude/skills/l52-account-deletion/scripts/check.dart
 ```
 
 ---
@@ -121,7 +121,7 @@ dart run .claude/skills/account-deletion/scripts/check.dart
 
 ## Testing
 
-Run `/testing settings` to generate tests for the deletion flow.
+Run `/l52-testing settings` to generate tests for the deletion flow.
 
 **Manual verification:**
 - [ ] Delete account from fresh install

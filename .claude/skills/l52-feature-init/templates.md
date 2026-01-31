@@ -299,10 +299,10 @@ title: {Feature}
 empty: No items yet
 
 # TODO: Add feature-specific strings
-# Use /i18n skill to write clear, user-friendly text
+# Use /l52-i18n skill to write clear, user-friendly text
 
 # Accessibility labels for screen readers
-# Use /a11y skill to add Semantics widgets that reference these
+# Use /l52-a11y skill to add Semantics widgets that reference these
 accessibility:
   # Example labels - replace with actual feature content
   # itemDescription: Item $name
@@ -322,7 +322,7 @@ import '../../../../../helpers/test_helpers.dart';
 
 void main() {
   group('{Feature}RepositoryImpl', () {
-    // TODO: Use /testing skill to implement tests
+    // TODO: Use /l52-testing skill to implement tests
     test('placeholder', () {
       expect(true, isTrue);
     });
@@ -370,13 +370,13 @@ After generating files:
 - [ ] i18n template added (include `accessibility:` section for semantic labels)
 - [ ] Route added to `app_router.dart`
 - [ ] `build_runner` executed
-- [ ] Hand off to `/i18n`, `/testing`, `/design`, `/a11y`
+- [ ] Hand off to `/l52-i18n`, `/l52-testing`, `/l52-design`, `/l52-a11y`
 
 ## Dependency Verification
 
 Run validation to check for violations:
 ```bash
-dart run .claude/skills/feature-init/scripts/check.dart --validate {feature}
+dart run .claude/skills/l52-feature-init/scripts/check.dart --validate {feature}
 ```
 
 This checks:

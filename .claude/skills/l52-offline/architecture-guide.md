@@ -436,7 +436,7 @@ Verify offline functionality with these scenarios:
 | Conflict resolution | Correct strategy applied |
 | Error recovery | Graceful handling of sync failures |
 
-**See:** Run `/testing` for comprehensive offline test patterns.
+**See:** Run `/l52-testing` for comprehensive offline test patterns.
 
 ---
 

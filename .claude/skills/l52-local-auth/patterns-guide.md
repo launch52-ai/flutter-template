@@ -499,5 +499,5 @@ sealed class LocalAuthState with _$LocalAuthState {
 
 1. Copy reference files matching your patterns
 2. Integrate with your app's navigation
-3. Run `/i18n` for localized strings
-4. Run `/testing` for auth flow tests
+3. Run `/l52-i18n` for localized strings
+4. Run `/l52-testing` for auth flow tests

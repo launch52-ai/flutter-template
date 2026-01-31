@@ -18,28 +18,28 @@ Configure dev, staging, and production environments with separate configurations
 
 ## When NOT to Use This Skill
 
-- Single environment projects - Use `/init` with single `.env`
-- CI/CD setup - Use `/ci-cd` after flavors are configured
-- Basic Firebase setup - Use `/analytics` first, then add per-flavor config
+- Single environment projects - Use `/l52-init` with single `.env`
+- CI/CD setup - Use `/l52-ci-cd` after flavors are configured
+- Basic Firebase setup - Use `/l52-analytics` first, then add per-flavor config
 
 ## Important: Migration from flutter_dotenv
 
 **This skill REPLACES `flutter_dotenv` runtime loading with compile-time variables.**
 
-If your project uses `/init`'s approach (`await dotenv.load()`), running `/flavors` will:
+If your project uses `/l52-init`'s approach (`await dotenv.load()`), running `/l52-flavors` will:
 1. Remove `flutter_dotenv` dependency
 2. Replace `.env` runtime loading with `--dart-define-from-file` build flags
 3. Create `FlavorConfig` class using `String.fromEnvironment()`
 
 **Why compile-time?** Secrets are not bundled in the app binary - they're injected at build time.
 
-## Integration with /core
+## Integration with /l52-core
 
 **FlavorConfig** handles:
 - Flavor identification (`isDev`, `isProd`, `isStaging`)
 - Per-flavor API URLs and service credentials
 
-**DebugConstants** (from `/core`) handles:
+**DebugConstants** (from `/l52-core`) handles:
 - Debug/mock flags (`useMockAuth`, `useMockApi`)
 - Logging and UI debug options
 
@@ -102,7 +102,7 @@ Add `.env.dev`, `.env.staging`, `.env.prod`.
 ### Phase 8: Verify Setup
 
 ```bash
-dart run .claude/skills/flavors/scripts/check.dart
+dart run .claude/skills/l52-flavors/scripts/check.dart
 flutter build apk --flavor dev --dart-define-from-file=.env.dev
 ```
 
@@ -112,7 +112,7 @@ flutter build apk --flavor dev --dart-define-from-file=.env.dev
 |-------|---------|
 | [android-guide.md](android-guide.md) | Gradle productFlavors, signing configs |
 | [ios-guide.md](ios-guide.md) | Xcode schemes, xcconfig files |
-| [firebase-guide.md](firebase-guide.md) | Per-flavor Firebase setup (see `/analytics` for basic setup) |
+| [firebase-guide.md](firebase-guide.md) | Per-flavor Firebase setup (see `/l52-analytics` for basic setup) |
 | [checklist.md](checklist.md) | Verification checklist |
 
 ## Templates
@@ -150,11 +150,11 @@ flutter build apk --flavor dev --dart-define-from-file=.env.dev
 
 ## Related Skills
 
-- `/init` - Creates project with single `.env` (flavors replaces this approach)
-- `/core` - DebugConstants for mock/debug flags (complementary to FlavorConfig)
-- `/ci-cd` - Add flavor-aware CI/CD pipelines after this skill
-- `/analytics` - Basic Firebase setup; use before per-flavor config
-- `/release` - Prepare production flavor for app stores
+- `/l52-init` - Creates project with single `.env` (flavors replaces this approach)
+- `/l52-core` - DebugConstants for mock/debug flags (complementary to FlavorConfig)
+- `/l52-ci-cd` - Add flavor-aware CI/CD pipelines after this skill
+- `/l52-analytics` - Basic Firebase setup; use before per-flavor config
+- `/l52-release` - Prepare production flavor for app stores
 
 ## Common Issues
 
@@ -172,6 +172,6 @@ Ensure you're passing `--dart-define-from-file=.env.{flavor}` flag.
 
 ## Next Steps
 
-1. `/ci-cd` - Update GitHub Actions for multi-flavor builds
-2. `/analytics` - Configure per-flavor Firebase Analytics
-3. `/release` - Prepare production signing
+1. `/l52-ci-cd` - Update GitHub Actions for multi-flavor builds
+2. `/l52-analytics` - Configure per-flavor Firebase Analytics
+3. `/l52-release` - Prepare production signing

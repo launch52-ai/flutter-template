@@ -36,14 +36,14 @@ lib/features/{feature}/resources/    ❌ FORBIDDEN
 ```
 
 **Why this matters:**
-- Domain entities are pure Dart - that's `/domain`'s job
-- Presentation states/notifiers consume repositories - that's `/presentation`'s job
+- Domain entities are pure Dart - that's `/l52-domain`'s job
+- Presentation states/notifiers consume repositories - that's `/l52-presentation`'s job
 - If data changes require domain/presentation updates, STOP and tell user
 
 **If you need to:**
-- Add a field to domain entity → Tell user to run `/domain` first
-- Update notifier to use new repository method → Tell user to run `/presentation` after
-- Add new strings → Tell user to run `/i18n`
+- Add a field to domain entity → Tell user to run `/l52-domain` first
+- Update notifier to use new repository method → Tell user to run `/l52-presentation` after
+- Add new strings → Tell user to run `/l52-i18n`
 
 **Allowed: Read-only access to domain layer for:**
 - Checking repository interface signatures (to implement them)
@@ -51,13 +51,13 @@ lib/features/{feature}/resources/    ❌ FORBIDDEN
 
 ## When to Use This Skill
 
-- After `/domain` has created entities and repository interfaces
+- After `/l52-domain` has created entities and repository interfaces
 - When implementing API integration
 - When adding local storage/caching
 - When you have backend code or OpenAPI specs as reference
 - User asks to "implement repository", "create DTOs", or "wire up API"
 
-> **Note:** This skill replaces the former `/api` skill. All API integration functionality is now here.
+> **Note:** This skill replaces the former `/l52-api` skill. All API integration functionality is now here.
 
 ## What This Skill Creates
 
@@ -92,7 +92,7 @@ lib/features/{feature}/.spec.md           # Feature specification
 lib/features/{feature}/domain/            # Domain entities/repository interface
 ```
 
-If domain layer doesn't exist, ask user to run `/domain {feature}` first.
+If domain layer doesn't exist, ask user to run `/l52-domain {feature}` first.
 
 ### Step 2: Analyze Data Sources
 
@@ -137,7 +137,7 @@ dart run build_runner build --delete-conflicting-outputs
 ### Step 5: Verify
 
 ```bash
-dart run .claude/skills/data/scripts/check.dart {feature}
+dart run .claude/skills/l52-data/scripts/check.dart {feature}
 ```
 
 ## Commands
@@ -211,9 +211,9 @@ Before finishing data layer generation:
 
 ## Related Skills
 
-- `/domain` - Run first to create entities and repository interfaces
-- `/feature-init` - Initialize feature scaffold (run before /domain and /data)
-- `/plan` - Plan data sources before implementation
-- `/presentation` - Implement UI layer after data layer is complete
-- `/testing` - Create tests for repositories and data sources
-- `/i18n` - Localize error messages (via failure mapper)
+- `/l52-domain` - Run first to create entities and repository interfaces
+- `/l52-feature-init` - Initialize feature scaffold (run before /l52-domain and /l52-data)
+- `/l52-plan` - Plan data sources before implementation
+- `/l52-presentation` - Implement UI layer after data layer is complete
+- `/l52-testing` - Create tests for repositories and data sources
+- `/l52-i18n` - Localize error messages (via failure mapper)

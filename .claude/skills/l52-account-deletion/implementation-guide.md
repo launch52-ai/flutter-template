@@ -7,8 +7,8 @@ Step-by-step guide for implementing App Store, Play Store, and GDPR compliant ac
 ## Prerequisites
 
 Before implementing account deletion:
-- `/auth` skill completed (provides AuthRepository)
-- Settings feature exists (or run `/feature-init settings`)
+- `/l52-auth` skill completed (provides AuthRepository)
+- Settings feature exists (or run `/l52-feature-init settings`)
 - Backend authentication configured (Supabase/Firebase/Custom)
 
 ---
@@ -169,7 +169,7 @@ state.whenOrNull(
 
 ## Phase 5: Localization
 
-Run `/i18n settings` to migrate hardcoded strings to i18n files.
+Run `/l52-i18n settings` to migrate hardcoded strings to i18n files.
 
 The reference templates contain `// TODO: Use t.settings.xxx` comments indicating which strings need localization.
 

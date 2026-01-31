@@ -19,8 +19,8 @@ Implement version checking and in-app update prompts to keep users on supported 
 ## When NOT to Use This Skill
 
 - OTA code updates (Flutter doesn't support this like React Native) - Use store updates
-- App store submission process - Use `/release` instead
-- CI/CD build versioning - Use `/ci-cd` instead
+- App store submission process - Use `/l52-release` instead
+- CI/CD build versioning - Use `/l52-ci-cd` instead
 
 ## Questions to Ask
 
@@ -52,11 +52,11 @@ Implement version checking and in-app update prompts to keep users on supported 
 
 ```bash
 # Validate force-update implementation
-dart run .claude/skills/force-update/scripts/check.dart
+dart run .claude/skills/l52-force-update/scripts/check.dart
 
 # Check specific aspects
-dart run .claude/skills/force-update/scripts/check.dart --check version-service
-dart run .claude/skills/force-update/scripts/check.dart --check dialogs
+dart run .claude/skills/l52-force-update/scripts/check.dart --check version-service
+dart run .claude/skills/l52-force-update/scripts/check.dart --check dialogs
 ```
 
 ## Workflow
@@ -199,12 +199,12 @@ lib/
 
 ## Related Skills
 
-- `/release` - App store preparation and signing
-- `/ci-cd` - Build versioning and deployment
-- `/analytics` - Track update prompt interactions
-- `/i18n` - Localize update dialog strings
-- `/design` - Polish update screen UI
-- `/a11y` - Add accessibility to update screens
+- `/l52-release` - App store preparation and signing
+- `/l52-ci-cd` - Build versioning and deployment
+- `/l52-analytics` - Track update prompt interactions
+- `/l52-i18n` - Localize update dialog strings
+- `/l52-design` - Polish update screen UI
+- `/l52-a11y` - Add accessibility to update screens
 
 ## Common Issues
 
@@ -218,8 +218,8 @@ Key points:
 ## Next Steps
 
 After implementing force update:
-1. `/i18n` - Localize all user-facing strings
-2. `/design` - Polish UI, loading states, visual feedback
-3. `/a11y` - Add semantic labels, ensure accessibility
-4. `/analytics` - Add update prompt tracking events
-5. `/ci-cd` - Automate version bumping in CI
+1. `/l52-i18n` - Localize all user-facing strings
+2. `/l52-design` - Polish UI, loading states, visual feedback
+3. `/l52-a11y` - Add semantic labels, ensure accessibility
+4. `/l52-analytics` - Add update prompt tracking events
+5. `/l52-ci-cd` - Automate version bumping in CI

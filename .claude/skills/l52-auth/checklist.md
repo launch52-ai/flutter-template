@@ -164,7 +164,7 @@ Complete verification checklist for base authentication setup.
 
 ## Auth Methods (After Running Specific Skills)
 
-### Social Login (if using /social-login)
+### Social Login (if using /l52-social-login)
 
 - [ ] `signInWithGoogle()` method in AuthNotifier
 - [ ] `signInWithApple()` method in AuthNotifier
@@ -172,7 +172,7 @@ Complete verification checklist for base authentication setup.
 - [ ] `SocialLoginButton` widget available
 - [ ] Social buttons added to LoginScreen
 
-### Phone Auth (if using /phone-auth)
+### Phone Auth (if using /l52-phone-auth)
 
 - [ ] `PhoneAuthRepository` interface exists
 - [ ] `PhoneAuthNotifier` exists
@@ -218,8 +218,8 @@ flutter analyze
 # Run tests (after /testing)
 flutter test test/features/auth/
 
-# Check i18n coverage (after /i18n)
-dart run .claude/skills/i18n/scripts/check.dart --audit auth
+# Check i18n coverage (after /l52-i18n)
+dart run .claude/skills/l52-i18n/scripts/check.dart --audit auth
 ```
 
 ---
@@ -240,8 +240,8 @@ dart run .claude/skills/i18n/scripts/check.dart --audit auth
 
 After completing this checklist:
 
-1. **Add auth methods:** `/social-login`, `/phone-auth`
-2. **Add i18n:** `/i18n auth`
-3. **Write tests:** `/testing auth`
-4. **Polish UI:** `/design`
-5. **Accessibility:** `/a11y`
+1. **Add auth methods:** `/l52-social-login`, `/l52-phone-auth`
+2. **Add i18n:** `/l52-i18n auth`
+3. **Write tests:** `/l52-testing auth`
+4. **Polish UI:** `/l52-design`
+5. **Accessibility:** `/l52-a11y`

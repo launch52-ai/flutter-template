@@ -133,7 +133,7 @@ dependencies:
 
 ## Related Skills
 
-- `/release` - iOS capabilities, Android signing
-- `/design` - In-app notification banners
-- `/i18n` - Localized notification content
-- `/testing` - Test notification flows
+- `/l52-release` - iOS capabilities, Android signing
+- `/l52-design` - In-app notification banners
+- `/l52-i18n` - Localized notification content
+- `/l52-testing` - Test notification flows

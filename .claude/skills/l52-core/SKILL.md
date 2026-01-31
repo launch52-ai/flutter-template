@@ -10,8 +10,8 @@ Generates the core infrastructure that all features depend on.
 
 ## When to Use This Skill
 
-- After `/init` completes
-- Before adding any features or `/auth`
+- After `/l52-init` completes
+- Before adding any features or `/l52-auth`
 - Setting up app-wide infrastructure
 - User asks to "generate core", "create infrastructure", or "setup theme/router"
 
@@ -31,7 +31,7 @@ Generates the core infrastructure that all features depend on.
 
 ### Phase 1: Gather Requirements
 
-Use AskUserQuestion to confirm settings from `/init`:
+Use AskUserQuestion to confirm settings from `/l52-init`:
 
 1. **Primary Color** (hex, from /init or ask)
 2. **Theme Mode** (light/dark/both)
@@ -110,11 +110,11 @@ This skill is code-heavy with all templates in `reference/`. No separate guides 
 
 | Topic | See |
 |-------|-----|
-| Architecture patterns | `.claude/skills/plan/architecture.md` |
-| Color usage (contrast, dark mode) | `/design` → `visual-guide.md` |
-| Typography sizes & hierarchy | `/design` → `visual-guide.md` |
-| Color contrast requirements | `/a11y` → `semantics-guide.md` |
-| Text scaling accessibility | `/a11y` → `testing-guide.md` |
+| Architecture patterns | `.claude/skills/l52-plan/architecture.md` |
+| Color usage (contrast, dark mode) | `/l52-design` → `visual-guide.md` |
+| Typography sizes & hierarchy | `/l52-design` → `visual-guide.md` |
+| Color contrast requirements | `/l52-a11y` → `semantics-guide.md` |
+| Text scaling accessibility | `/l52-a11y` → `testing-guide.md` |
 
 ## Quick Reference
 
@@ -128,11 +128,11 @@ triggerIOSNetworkPermission(); // iOS permission (call in main.dart)
 
 ## Next Steps
 
-After `/core`:
+After `/l52-core`:
 
-1. `/auth` - Add authentication feature
-2. `/feature-init dashboard` - Initialize dashboard scaffold
-3. `/i18n` - Add localization
+1. `/l52-auth` - Add authentication feature
+2. `/l52-feature-init dashboard` - Initialize dashboard scaffold
+3. `/l52-i18n` - Add localization
 
 ## Checklist
 
@@ -152,7 +152,7 @@ After `/core`:
 
 ## Related Skills
 
-- `/init` - Run before core (project setup)
-- `/auth` - Run after core (authentication)
-- `/feature-init` - Initialize feature scaffolds after core
-- `/design` - UI patterns reference
+- `/l52-init` - Run before core (project setup)
+- `/l52-auth` - Run after core (authentication)
+- `/l52-feature-init` - Initialize feature scaffolds after core
+- `/l52-design` - UI patterns reference

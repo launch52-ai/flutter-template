@@ -18,9 +18,9 @@ Implement offline-first architecture with local storage, automatic sync, and con
 
 ## When NOT to Use This Skill
 
-- **Simple in-memory caching** - Use `/data` caching patterns instead
-- **Network connectivity detection** - Use `/network-connectivity` instead
-- **Error handling for failed requests** - Use `/data` NetworkFailure types
+- **Simple in-memory caching** - Use `/l52-data` caching patterns instead
+- **Network connectivity detection** - Use `/l52-network-connectivity` instead
+- **Error handling for failed requests** - Use `/l52-data` NetworkFailure types
 
 ## Questions to Ask
 
@@ -107,7 +107,7 @@ Implement offline-first architecture with local storage, automatic sync, and con
 ### Phase 5: Verify
 
 ```bash
-dart run .claude/skills/offline/scripts/check.dart --feature {feature}
+dart run .claude/skills/l52-offline/scripts/check.dart --feature {feature}
 ```
 
 ## Core API
@@ -170,10 +170,10 @@ final isSynced = ref.watch(syncStatusProvider);
 
 ## Related Skills
 
-- `/network-connectivity` - Connectivity monitoring and offline banner
-- `/data` - Base repository patterns, caching, error handling
-- `/push-notifications` - Push-based sync triggers
-- `/analytics` - Track sync events and failures
+- `/l52-network-connectivity` - Connectivity monitoring and offline banner
+- `/l52-data` - Base repository patterns, caching, error handling
+- `/l52-push-notifications` - Push-based sync triggers
+- `/l52-analytics` - Track sync events and failures
 
 ## Common Issues
 
@@ -189,7 +189,7 @@ final isSynced = ref.watch(syncStatusProvider);
 ## Next Steps
 
 After running this skill:
-1. Run `/network-connectivity` for offline banner
-2. Run `/testing` for offline scenario tests
-3. Run `/i18n` for sync status messages
-4. Consider `/push-notifications` for push-based sync
+1. Run `/l52-network-connectivity` for offline banner
+2. Run `/l52-testing` for offline scenario tests
+3. Run `/l52-i18n` for sync status messages
+4. Consider `/l52-push-notifications` for push-based sync

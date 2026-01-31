@@ -136,7 +136,7 @@ ErrorTrackingService errorTrackingService(Ref ref) => FirebaseCrashlyticsService
 | [local-setup-guide.md](local-setup-guide.md) | Xcode Build Phase setup for dSYMs |
 | [checklist.md](checklist.md) | Verification checklist |
 
-**For CI/CD integration:** See `/ci-cd` skill → `debug-symbols-guide.md`
+**For CI/CD integration:** See `/l52-ci-cd` skill → `debug-symbols-guide.md`
 
 ## Checklist
 
@@ -166,9 +166,9 @@ ErrorTrackingService errorTrackingService(Ref ref) => FirebaseCrashlyticsService
 
 ## Related Skills
 
-- `/push-notifications` - Firebase project setup (shared)
-- `/release` - iOS build phases, Android signing
-- `/ci-cd` - dSYM upload automation
-- `/design` - Consent dialogs, settings UI
-- `/i18n` - Localized consent text
-- `/testing` - Mock analytics for tests
+- `/l52-push-notifications` - Firebase project setup (shared)
+- `/l52-release` - iOS build phases, Android signing
+- `/l52-ci-cd` - dSYM upload automation
+- `/l52-design` - Consent dialogs, settings UI
+- `/l52-i18n` - Localized consent text
+- `/l52-testing` - Mock analytics for tests

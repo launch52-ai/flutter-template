@@ -425,9 +425,9 @@ Dependency structure:
 
 Next steps:
 1. Add repository provider to `lib/core/providers.dart`
-2. Run `/i18n bookmarks` to write user-friendly strings
-3. Run `/testing bookmarks` to create test files
-4. Run `/design` when implementing the UI details
+2. Run `/l52-i18n bookmarks` to write user-friendly strings
+3. Run `/l52-testing bookmarks` to create test files
+4. Run `/l52-design` when implementing the UI details
 5. Add route to `lib/core/router/app_router.dart`
 6. Run `dart run build_runner build --delete-conflicting-outputs`
 ```

@@ -41,13 +41,13 @@ lib/
 
 ```bash
 # Audit for hardcoded strings
-dart run .claude/skills/i18n/scripts/check.dart --audit
+dart run .claude/skills/l52-i18n/scripts/check.dart --audit
 
 # Audit specific feature
-dart run .claude/skills/i18n/scripts/check.dart --audit auth
+dart run .claude/skills/l52-i18n/scripts/check.dart --audit auth
 
 # Generate missing i18n files
-dart run .claude/skills/i18n/scripts/check.dart --generate
+dart run .claude/skills/l52-i18n/scripts/check.dart --generate
 
 # Regenerate translations
 dart run build_runner build --delete-conflicting-outputs
@@ -58,7 +58,7 @@ dart run build_runner build --delete-conflicting-outputs
 ### 1. Audit
 
 ```bash
-dart run .claude/skills/i18n/scripts/check.dart --audit {feature}
+dart run .claude/skills/l52-i18n/scripts/check.dart --audit {feature}
 ```
 
 Look for: `Text('...')`, `title:`, `hintText:`, `label:`, SnackBar messages, Dialog content.
@@ -103,4 +103,4 @@ dart run build_runner build --delete-conflicting-outputs
 
 ## Related Skills
 
-- `/a11y` - Accessibility labels (add to `accessibility:` section in i18n files)
+- `/l52-a11y` - Accessibility labels (add to `accessibility:` section in i18n files)

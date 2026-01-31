@@ -74,7 +74,7 @@ Create complete, well-structured Claude Code skills. Generates scaffolds, valida
 mkdir -p .claude/skills/{skill-name}/{scripts,templates,reference}
 
 # Validate structure
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {skill-name}
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {skill-name}
 ```
 
 ### Phase 3: Write SKILL.md
@@ -110,12 +110,12 @@ Based on category:
 
 ```bash
 # Run full validation
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {skill-name}
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {skill-name}
 
 # Check specific aspects
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {skill-name} --check frontmatter
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {skill-name} --check structure
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {skill-name} --check references
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {skill-name} --check frontmatter
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {skill-name} --check structure
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {skill-name} --check references
 ```
 
 ### Phase 6: Register
@@ -128,10 +128,10 @@ Update `SKILL_STRUCTURE.md`:
 ## Commands
 
 ```bash
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {name}  # Validate
-dart run .claude/skills/skill-create/scripts/validate.dart --all           # Validate all
-dart run .claude/skills/skill-create/scripts/validate.dart --list-checks   # List checks
-dart run .claude/skills/skill-create/scripts/validate.dart --skill {name} --report  # Detailed
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {name}  # Validate
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --all           # Validate all
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --list-checks   # List checks
+dart run .claude/skills/l52-skill-create/scripts/validate.dart --skill {name} --report  # Detailed
 ```
 
 ## Quality Gates

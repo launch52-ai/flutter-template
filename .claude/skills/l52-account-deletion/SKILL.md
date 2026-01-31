@@ -18,7 +18,7 @@ Implements GDPR, App Store, and Play Store compliant account deletion with prope
 
 ## When NOT to Use This Skill
 
-- User just wants to sign out - Use `/auth` signOut method
+- User just wants to sign out - Use `/l52-auth` signOut method
 - Deleting app data only (no account) - Manual implementation
 - Admin user deletion - Custom admin feature
 
@@ -104,7 +104,7 @@ Create in `lib/features/settings/presentation/`:
 ### Phase 6: Testing
 
 ```bash
-dart run .claude/skills/account-deletion/scripts/check.dart
+dart run .claude/skills/l52-account-deletion/scripts/check.dart
 ```
 
 ## File Structure
@@ -155,10 +155,10 @@ dart run .claude/skills/account-deletion/scripts/check.dart
 
 ```bash
 # Validate implementation
-dart run .claude/skills/account-deletion/scripts/check.dart
+dart run .claude/skills/l52-account-deletion/scripts/check.dart
 
 # Check specific feature
-dart run .claude/skills/account-deletion/scripts/check.dart --feature settings
+dart run .claude/skills/l52-account-deletion/scripts/check.dart --feature settings
 ```
 
 ## Checklist
@@ -187,11 +187,11 @@ dart run .claude/skills/account-deletion/scripts/check.dart --feature settings
 
 ## Related Skills
 
-- `/auth` - Provides signOut method used after deletion
-- `/i18n` - Localize deletion strings
-- `/testing` - Write tests for deletion flow
-- `/design` - UI polish for deletion flow
+- `/l52-auth` - Provides signOut method used after deletion
+- `/l52-i18n` - Localize deletion strings
+- `/l52-testing` - Write tests for deletion flow
+- `/l52-design` - UI polish for deletion flow
 
 ## Next Steps
 
-After `/account-deletion`: Run `/i18n settings`, `/testing settings`, then `/design`.
+After `/l52-account-deletion`: Run `/l52-i18n settings`, `/l52-testing settings`, then `/l52-design`.

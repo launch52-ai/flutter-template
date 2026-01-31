@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Feature Init - Initialize Feature Structure
 
-Initialize a new feature with Clean Architecture folder structure and skeleton files. Creates the scaffold, then `/domain` and `/data` fill in the details.
+Initialize a new feature with Clean Architecture folder structure and skeleton files. Creates the scaffold, then `/l52-domain` and `/l52-data` fill in the details.
 
 ## CRITICAL: Always Create Scaffold Files
 
@@ -15,25 +15,25 @@ Initialize a new feature with Clean Architecture folder structure and skeleton f
 Scaffold files:
 - Contain ONLY TODOs, comments, and empty structure
 - Have NO implementation code
-- Serve as guidance for `/domain`, `/data`, `/presentation` skills
+- Serve as guidance for `/l52-domain`, `/l52-data`, `/l52-presentation` skills
 - Must reference web/backend equivalents where applicable
 
-**Without scaffolds, other skills won't know what to implement.**
+**Without scaffolds, other skills will not know what to implement.**
 
 ## When to Use This Skill
 
-- Creating a new feature from scratch (after `/plan`) → use `--generate`
+- Creating a new feature from scratch (after `/l52-plan`) → use `--generate`
 - Extending an existing feature with new entities/screens → use `--extend`
 - User asks to "create feature", "init feature", "scaffold feature", or "add new feature"
 - **PLAN.md says "extend existing feature"** → use `--extend` (STILL CREATE SCAFFOLDS)
 
 ## COMMON MISTAKES - DO NOT MAKE THESE
 
-**WRONG:** "The plan says to extend an existing feature, so /feature-init doesn't apply."
+**WRONG:** "The plan says to extend an existing feature, so /l52-feature-init does not apply."
 **RIGHT:** Use `--extend` mode to create scaffold files in the existing feature.
 
-**WRONG:** "I'll skip scaffolding and just implement the code directly."
-**RIGHT:** ALWAYS create scaffolds first. Other skills (`/domain`, `/data`) need them.
+**WRONG:** "I will skip scaffolding and just implement the code directly."
+**RIGHT:** ALWAYS create scaffolds first. Other skills (`/l52-domain`, `/l52-data`) need them.
 
 **WRONG:** "Feature folder exists, so I should just edit files manually."
 **RIGHT:** Use `--extend` to add NEW scaffold files, then edit existing files with TODOs.
@@ -208,13 +208,13 @@ Add scaffold files to existing feature:
 ### 3. Hand Off to Specialized Skills
 
 After creating scaffolds, inform user of next steps:
-1. `/domain {feature}` - Fill in domain layer details (entities, enums, interfaces)
-2. `/data {feature}` - Fill in data layer details (DTOs, repository impl, API calls)
-3. `/presentation {feature}` - Fill in presentation layer (providers, screens)
-4. `/i18n {feature}` - Add localized strings
-5. `/testing {feature}` - Create test files
-6. `/design` - Polish the UI
-7. `/a11y` - Add Semantics widgets
+1. `/l52-domain {feature}` - Fill in domain layer details (entities, enums, interfaces)
+2. `/l52-data {feature}` - Fill in data layer details (DTOs, repository impl, API calls)
+3. `/l52-presentation {feature}` - Fill in presentation layer (providers, screens)
+4. `/l52-i18n {feature}` - Add localized strings
+5. `/l52-testing {feature}` - Create test files
+6. `/l52-design` - Polish the UI
+7. `/l52-a11y` - Add Semantics widgets
 8. Add route to `app_router.dart`
 9. Add repository provider to `core/providers.dart`
 10. Run `dart run build_runner build`
@@ -243,7 +243,7 @@ After creating scaffolds, inform user of next steps:
 - [ ] Data layer scaffold: model, repository impl, mock (with TODO comments)
 - [ ] Presentation layer scaffold: provider, screen (with TODO comments)
 - [ ] Each scaffold references web/backend equivalent
-- [ ] Informed user of next steps (`/domain`, `/data`, `/presentation`)
+- [ ] Informed user of next steps (`/l52-domain`, `/l52-data`, `/l52-presentation`)
 
 **DO NOT:**
 - [ ] Write any implementation code
@@ -253,11 +253,11 @@ After creating scaffolds, inform user of next steps:
 
 ## Related Skills
 
-- `/plan` - Run BEFORE this skill to plan feature requirements
-- `/domain` - Run AFTER to fill in domain layer details
-- `/data` - Run AFTER to fill in data layer implementation
-- `/presentation` - Run AFTER to fill in presentation layer (states, notifiers, screens)
-- `/i18n` - Add localized strings
-- `/testing` - Create test files
-- `/design` - Polish UI components
-- `/a11y` - Add accessibility support
+- `/l52-plan` - Run BEFORE this skill to plan feature requirements
+- `/l52-domain` - Run AFTER to fill in domain layer details
+- `/l52-data` - Run AFTER to fill in data layer implementation
+- `/l52-presentation` - Run AFTER to fill in presentation layer (states, notifiers, screens)
+- `/l52-i18n` - Add localized strings
+- `/l52-testing` - Create test files
+- `/l52-design` - Polish UI components
+- `/l52-a11y` - Add accessibility support

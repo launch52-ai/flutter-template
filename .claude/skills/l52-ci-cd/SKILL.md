@@ -42,7 +42,7 @@ Set up robust CI/CD pipelines for Flutter apps using GitHub Actions and Fastlane
 
 ```bash
 # Interactive setup - creates config file, then generates all CI/CD files
-dart run .claude/skills/ci-cd/scripts/setup.dart
+dart run .claude/skills/l52-ci-cd/scripts/setup.dart
 ```
 
 This will:
@@ -53,7 +53,7 @@ This will:
 ### Other Commands
 
 ```bash
-dart run .claude/skills/ci-cd/scripts/check.dart       # Validate setup
+dart run .claude/skills/l52-ci-cd/scripts/check.dart       # Validate setup
 cd ios && bundle exec fastlane beta                    # Fastlane iOS
 cd android && bundle exec fastlane beta                # Fastlane Android
 ./scripts/bump_version.sh patch                        # Bump version
@@ -157,8 +157,8 @@ Ready-to-use files in `templates/`: bump_version scripts, workflows/*.yml (ci, b
 ```bash
 # Copy templates manually (or use setup.dart)
 mkdir -p .github/workflows ios/fastlane android/fastlane
-cp .claude/skills/ci-cd/templates/workflows/*.yml .github/workflows/
-cp .claude/skills/ci-cd/templates/fastlane/ios/* ios/fastlane/
+cp .claude/skills/l52-ci-cd/templates/workflows/*.yml .github/workflows/
+cp .claude/skills/l52-ci-cd/templates/fastlane/ios/* ios/fastlane/
 ```
 
 ## Guides
@@ -172,9 +172,9 @@ cp .claude/skills/ci-cd/templates/fastlane/ios/* ios/fastlane/
 
 ## Related Skills
 
-- `/release` - Manual release preparation (signing, icons, store setup) - do this first
-- `/analytics` - Crash reporting setup, provides upload scripts
-- `/testing` - Ensure tests pass before deployment
+- `/l52-release` - Manual release preparation (signing, icons, store setup) - do this first
+- `/l52-analytics` - Crash reporting setup, provides upload scripts
+- `/l52-testing` - Ensure tests pass before deployment
 
 ## Sources
 

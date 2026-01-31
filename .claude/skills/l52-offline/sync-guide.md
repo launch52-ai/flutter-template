@@ -603,7 +603,7 @@ Future<void> _executeOperation(SyncOperation op) async {
 
 ## Verifying Sync Implementation
 
-Run `/testing` for comprehensive sync verification. Example patterns:
+Run `/l52-testing` for comprehensive sync verification. Example patterns:
 
 ### Unit Verification Example
 

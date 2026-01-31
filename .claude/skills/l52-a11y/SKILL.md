@@ -37,13 +37,13 @@ Make Flutter apps accessible to everyone. Semantic labels, screen reader support
 
 ```bash
 # Audit for accessibility issues
-dart run .claude/skills/a11y/scripts/check.dart
+dart run .claude/skills/l52-a11y/scripts/check.dart
 
 # Audit specific feature
-dart run .claude/skills/a11y/scripts/check.dart --feature auth
+dart run .claude/skills/l52-a11y/scripts/check.dart --feature auth
 
 # Generate accessibility test file
-dart run .claude/skills/a11y/scripts/check.dart --generate-tests feature_name
+dart run .claude/skills/l52-a11y/scripts/check.dart --generate-tests feature_name
 ```
 
 ## Workflow
@@ -51,7 +51,7 @@ dart run .claude/skills/a11y/scripts/check.dart --generate-tests feature_name
 ### 1. Audit
 
 ```bash
-dart run .claude/skills/a11y/scripts/check.dart --feature {feature}
+dart run .claude/skills/l52-a11y/scripts/check.dart --feature {feature}
 ```
 
 Look for: Images without `semanticLabel`, `IconButton` without `tooltip`, custom widgets without `Semantics`.
@@ -98,6 +98,6 @@ Test with VoiceOver (iOS) and TalkBack (Android). All controls should be announc
 
 ## Related Skills
 
-- `/design` - Touch targets, contrast (visual aspects)
-- `/testing` - Add accessibility tests with other tests
-- `/i18n` - Localize accessibility labels
+- `/l52-design` - Touch targets, contrast (visual aspects)
+- `/l52-testing` - Add accessibility tests with other tests
+- `/l52-i18n` - Localize accessibility labels

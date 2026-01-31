@@ -11,8 +11,8 @@ Comprehensive feature planning that understands the WHOLE feature before any imp
 ## Why Planning First?
 
 Without planning, each skill works in isolation:
-- `/feature-init` creates scaffolds without knowing API structure
-- `/api` creates data layer without knowing what UI needs
+- `/l52-feature-init` creates scaffolds without knowing API structure
+- `/l52-data` creates data layer without knowing what UI needs
 - Screens get built without knowing what data is available
 - **Result**: Mismatches, rework, incomplete interfaces
 
@@ -88,28 +88,28 @@ List the implementation steps with skill references:
 
 | Step | Skill | Creates | Depends On |
 |------|-------|---------|------------|
-| 1 | /domain | Entities, Repository interface | - |
-| 2 | /data --source=X | Data layer for source X | 1 |
-| 3 | /api | REST API integration | 1 |
-| 4 | /screen list | List screen + provider | 1, 2/3 |
-| 5 | /screen detail | Detail screen + provider | 1, 2/3 |
-| 6 | /i18n | Localized strings | 4, 5 |
-| 7 | /testing | Tests | All above |
-| 8 | /design | UI polish | 4, 5 |
-| 9 | /a11y | Accessibility | 4, 5 |
+| 1 | /l52-domain | Entities, Repository interface | - |
+| 2 | /l52-data --source=X | Data layer for source X | 1 |
+| 3 | /l52-data | REST API integration | 1 |
+| 4 | /l52-presentation list | List screen + provider | 1, 2/3 |
+| 5 | /l52-presentation detail | Detail screen + provider | 1, 2/3 |
+| 6 | /l52-i18n | Localized strings | 4, 5 |
+| 7 | /l52-testing | Tests | All above |
+| 8 | /l52-design | UI polish | 4, 5 |
+| 9 | /l52-a11y | Accessibility | 4, 5 |
 ```
 
 ## Commands
 
 ```bash
 # Create new spec from scratch
-/plan {feature_name}
+/l52-plan {feature_name}
 
 # Review existing spec
-/plan {feature_name} --review
+/l52-plan {feature_name} --review
 
 # Update spec after changes
-/plan {feature_name} --update
+/l52-plan {feature_name} --update
 ```
 
 ## Output Format
@@ -132,14 +132,14 @@ After planning is complete, skills read from the spec:
 
 | Skill | Reads From Spec |
 |-------|-----------------|
-| `/domain` | Entities, Repository interface |
-| `/api` | Endpoints, DTOs, error handling |
-| `/data` | Data sources, caching strategy |
-| `/screen` | Screen designs, states, providers |
-| `/i18n` | User-facing text, error messages |
-| `/testing` | All layers for test coverage |
-| `/design` | Screen layouts, interactions |
-| `/a11y` | Interactive elements for labels |
+| `/l52-domain` | Entities, Repository interface |
+| `/l52-data` | Endpoints, DTOs, error handling |
+| `/l52-data` | Data sources, caching strategy |
+| `/l52-presentation` | Screen designs, states, providers |
+| `/l52-i18n` | User-facing text, error messages |
+| `/l52-testing` | All layers for test coverage |
+| `/l52-design` | Screen layouts, interactions |
+| `/l52-a11y` | Interactive elements for labels |
 
 ## Checklist
 
@@ -176,7 +176,7 @@ Before finalizing the spec:
 
 ## Architecture Foundation
 
-The `/plan` skill designs feature-specific architecture that builds on the project's established patterns. See [architecture.md](architecture.md) for:
+The `/l52-plan` skill designs feature-specific architecture that builds on the project's established patterns. See [architecture.md](architecture.md) for:
 
 - Clean Architecture pattern (domain/data/presentation)
 - Riverpod AsyncNotifier pattern with disposal safety
@@ -197,7 +197,7 @@ But NOT redefine:
 
 ## What NOT to Include
 
-The `/plan` skill focuses on **requirements and data**. Other skills handle their domains:
+The `/l52-plan` skill focuses on **requirements and data**. Other skills handle their domains:
 
 | Plan Specifies | Handled By |
 |----------------|------------|
@@ -206,11 +206,11 @@ The `/plan` skill focuses on **requirements and data**. Other skills handle thei
 | What states exist (loading, error, etc.) | Plan ✓ |
 | Error types and recovery actions | Plan ✓ |
 | Data sources (what, not how) | Plan ✓ |
-| How things are laid out visually | `/design` |
-| Actual error/success messages | `/i18n` |
-| Accessibility labels | `/a11y` |
-| Test cases | `/testing` |
-| Detailed DTOs, schemas, mappings | `/api` |
+| How things are laid out visually | `/l52-design` |
+| Actual error/success messages | `/l52-i18n` |
+| Accessibility labels | `/l52-a11y` |
+| Test cases | `/l52-testing` |
+| Detailed DTOs, schemas, mappings | `/l52-data` |
 
 **Bad (overstepping):**
 > "Grid layout with 3 columns, FAB in bottom-right"
@@ -224,10 +224,10 @@ The `/plan` skill focuses on **requirements and data**. Other skills handle thei
 
 ## Related Skills
 
-- `/feature-init` - Initialize feature scaffold (run after /plan)
-- `/domain` - Fill in domain layer from spec
-- `/data` - Fill in data layer from spec
-- `/i18n` - Add localized strings after implementation
-- `/testing` - Create tests for all layers
-- `/design` - Polish UI after scaffolding
-- `/a11y` - Add accessibility after UI is complete
+- `/l52-feature-init` - Initialize feature scaffold (run after /l52-plan)
+- `/l52-domain` - Fill in domain layer from spec
+- `/l52-data` - Fill in data layer from spec
+- `/l52-i18n` - Add localized strings after implementation
+- `/l52-testing` - Create tests for all layers
+- `/l52-design` - Polish UI after scaffolding
+- `/l52-a11y` - Add accessibility after UI is complete

@@ -47,7 +47,7 @@ templates/            # Info.plist, AndroidManifest additions
 2. Add methods to existing AuthRepositoryImpl
 3. Add provider methods to AuthNotifier
 4. Add OAuth callback route
-5. Run `/i18n` for strings
+5. Run `/l52-i18n` for strings
 
 ## Core API
 
@@ -131,7 +131,7 @@ Add to Google Cloud Console: debug, release, Play Store SHA-1.
 
 ## Related Skills
 
-- `/phone-auth` - Can combine with social login
-- `/i18n` - Localized strings
-- `/release` - iOS capabilities, Android signing
-- `/testing` - Test social login flows
+- `/l52-phone-auth` - Can combine with social login
+- `/l52-i18n` - Localized strings
+- `/l52-release` - iOS capabilities, Android signing
+- `/l52-testing` - Test social login flows

@@ -173,16 +173,16 @@ Ensure the app is uploaded to at least internal testing track. Google Play billi
 
 ## Related Skills
 
-- `/analytics` - Track purchase events, revenue
-- `/auth` - User identification for RevenueCat
-- `/design` - Paywall UI design patterns
-- `/i18n` - Localized paywall text, pricing
-- `/testing` - Mock purchases for tests
-- `/force-update` - Version gating with subscriptions
+- `/l52-analytics` - Track purchase events, revenue
+- `/l52-auth` - User identification for RevenueCat
+- `/l52-design` - Paywall UI design patterns
+- `/l52-i18n` - Localized paywall text, pricing
+- `/l52-testing` - Mock purchases for tests
+- `/l52-force-update` - Version gating with subscriptions
 
 ## Next Steps
 
 After implementing purchases:
-1. `/analytics` - Track purchase events and revenue
-2. `/i18n` - Localize paywall and product descriptions
-3. `/testing` - Create mock repository for tests
+1. `/l52-analytics` - Track purchase events and revenue
+2. `/l52-i18n` - Localize paywall and product descriptions
+3. `/l52-testing` - Create mock repository for tests

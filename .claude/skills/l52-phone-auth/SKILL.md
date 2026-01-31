@@ -50,7 +50,7 @@ reference/
 3. Implement repository (Supabase or API) - see implementation-guide.md
 4. Register provider in `lib/core/providers.dart`
 5. Run `dart run build_runner build`
-6. Use `/design` for UI components
+6. Use `/l52-design` for UI components
 
 ## Core API
 
@@ -105,7 +105,7 @@ See `reference/providers/phone_auth_providers.dart` for configuration.
 
 ## Related Skills
 
-- `/social-login` - Can combine with phone auth
-- `/design` - Phone input and OTP UI components
-- `/i18n` - Localized error messages
-- `/testing` - Unit and widget tests
+- `/l52-social-login` - Can combine with phone auth
+- `/l52-design` - Phone input and OTP UI components
+- `/l52-i18n` - Localized error messages
+- `/l52-testing` - Unit and widget tests

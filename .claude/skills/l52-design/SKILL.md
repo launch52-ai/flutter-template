@@ -99,9 +99,9 @@ Animation should communicate change, not decorate. Use 300ms for transitions, ma
 
 This skill focuses on visual/interaction design. For comprehensive accessibility:
 
-- **Semantic labels**: Use `/a11y` skill for Semantics widget patterns
-- **Screen reader testing**: See [../a11y/testing-guide.md](../a11y/testing-guide.md)
-- **WCAG compliance**: See [../a11y/SKILL.md](../a11y/SKILL.md) for guidelines
+- **Semantic labels**: Use `/l52-a11y` skill for Semantics widget patterns
+- **Screen reader testing**: See [../l52-a11y/testing-guide.md](../l52-a11y/testing-guide.md)
+- **WCAG compliance**: See [../l52-a11y/SKILL.md](../l52-a11y/SKILL.md) for guidelines
 
 Key accessibility requirements covered by design:
 - Touch targets ≥48dp (see [interaction-guide.md](interaction-guide.md))
@@ -110,7 +110,7 @@ Key accessibility requirements covered by design:
 
 ## Related Skills
 
-- `/a11y` - Comprehensive accessibility (Semantics widgets, screen readers)
-- `/feature-init` - Initialize feature scaffold before polishing
-- `/i18n` - Localize user-facing text, error messages
-- `/testing` - Widget tests for UI interactions
+- `/l52-a11y` - Comprehensive accessibility (Semantics widgets, screen readers)
+- `/l52-feature-init` - Initialize feature scaffold before polishing
+- `/l52-i18n` - Localize user-facing text, error messages
+- `/l52-testing` - Widget tests for UI interactions

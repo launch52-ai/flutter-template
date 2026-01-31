@@ -40,18 +40,18 @@ lib/features/{feature}/resources/    ❌ FORBIDDEN
 ```
 
 **Why this matters:**
-- Data layer adds `toEntity()` methods - that's `/data`'s job
-- Presentation layer consumes domain entities - that's `/presentation`'s job
-- If domain changes require data/presentation updates, STOP and tell user to run `/data` or `/presentation` next
+- Data layer adds `toEntity()` methods - that's `/l52-data`'s job
+- Presentation layer consumes domain entities - that's `/l52-presentation`'s job
+- If domain changes require data/presentation updates, STOP and tell user to run `/l52-data` or `/l52-presentation` next
 
 **If you need to:**
-- Add `toEntity()` to a model → Tell user to run `/data`
-- Update a state to use new entity → Tell user to run `/presentation`
+- Add `toEntity()` to a model → Tell user to run `/l52-data`
+- Update a state to use new entity → Tell user to run `/l52-presentation`
 - Fix import errors in other layers → Tell user which skill to run
 
 ## When to Use This Skill
 
-- After `/feature-init` has created the folder structure
+- After `/l52-feature-init` has created the folder structure
 - When you need to fill in entities, enums, or repository interfaces
 - When adding new domain concepts to an existing feature
 - User asks to "create domain", "generate entities", or "create repository interface"
@@ -79,7 +79,7 @@ lib/features/{feature}/.spec.md     # If feature exists
 docs/features/{feature}.spec.md     # If feature is new
 ```
 
-If no spec exists, ask user to run `/plan {feature}` first.
+If no spec exists, ask user to run `/l52-plan {feature}` first.
 
 ### Step 2: Extract Domain Requirements
 
@@ -112,7 +112,7 @@ Use reference files in `reference/` directory as templates:
 ### Step 4: Verify
 
 ```bash
-dart run .claude/skills/domain/scripts/check.dart {feature}
+dart run .claude/skills/l52-domain/scripts/check.dart {feature}
 ```
 
 ## Commands
@@ -186,8 +186,8 @@ Before finishing domain generation:
 
 ## Related Skills
 
-- `/plan` - Run first to create feature specification
-- `/feature-init` - Initialize feature scaffold (run before /domain)
-- `/data` - Implement repository and data sources after domain
-- `/presentation` - Implement UI layer after data
-- `/testing` - Create unit tests for domain logic
+- `/l52-plan` - Run first to create feature specification
+- `/l52-feature-init` - Initialize feature scaffold (run before /l52-domain)
+- `/l52-data` - Implement repository and data sources after domain
+- `/l52-presentation` - Implement UI layer after data
+- `/l52-testing` - Create unit tests for domain logic

@@ -50,10 +50,10 @@ flutter test test/unit/
 flutter test test/widget/
 
 # Audit test coverage
-dart run .claude/skills/testing/scripts/check.dart
+dart run .claude/skills/l52-testing/scripts/check.dart
 
 # Generate missing test files
-dart run .claude/skills/testing/scripts/check.dart --generate
+dart run .claude/skills/l52-testing/scripts/check.dart --generate
 
 # Update golden files
 flutter test --update-goldens test/golden/
@@ -77,7 +77,7 @@ See [patterns-guide.md](patterns-guide.md) for:
 ### 3. Verify Coverage
 
 ```bash
-dart run .claude/skills/testing/scripts/check.dart
+dart run .claude/skills/l52-testing/scripts/check.dart
 ```
 
 ## Checklist
@@ -114,9 +114,9 @@ dart run .claude/skills/testing/scripts/check.dart
 
 ## TDD Integration
 
-The testing skill can be called by layer skills (`/domain`, `/data`, `/presentation`) to generate tests as part of TDD workflow.
+The testing skill can be called by layer skills (`/l52-domain`, `/l52-data`, `/l52-presentation`) to generate tests as part of TDD workflow.
 
-### Called by /domain --tdd
+### Called by /l52-domain --tdd
 
 Generates **contract tests** for repository interfaces:
 - Uses mock repositories
@@ -126,10 +126,10 @@ Generates **contract tests** for repository interfaces:
 
 ```bash
 # Domain skill delegates test generation
-/testing auth --layer=domain --gwt=test/specs/auth.gwt.yaml
+/l52-testing auth --layer=domain --gwt=test/specs/auth.gwt.yaml
 ```
 
-### Called by /data --tdd
+### Called by /l52-data --tdd
 
 Generates **implementation tests**:
 - Repository impl tests (mock data source)
@@ -141,10 +141,10 @@ After running, domain contract tests should PASS.
 
 ```bash
 # Data skill delegates test generation
-/testing auth --layer=data
+/l52-testing auth --layer=data
 ```
 
-### Called by /presentation --tdd
+### Called by /l52-presentation --tdd
 
 Generates **UI tests**:
 - Notifier tests (state transitions, disposal)
@@ -155,32 +155,32 @@ Outputs screenshot paths for review app.
 
 ```bash
 # Presentation skill delegates test generation
-/testing auth --layer=presentation
+/l52-testing auth --layer=presentation
 ```
 
 ### TDD Commands
 
 ```bash
 # Generate tests for specific layer
-/testing {feature} --layer=domain
-/testing {feature} --layer=data
-/testing {feature} --layer=presentation
+/l52-testing {feature} --layer=domain
+/l52-testing {feature} --layer=data
+/l52-testing {feature} --layer=presentation
 
 # Generate from GWT input
-/testing {feature} --gwt=test/specs/auth.gwt.yaml
+/l52-testing {feature} --gwt=test/specs/auth.gwt.yaml
 
 # Generate specific test types
-/testing {feature} --type=contract     # Domain contracts only
-/testing {feature} --type=impl         # Data implementation only
-/testing {feature} --type=notifier     # Notifier tests only
-/testing {feature} --type=widget       # Widget tests only
-/testing {feature} --type=golden       # Golden tests only
+/l52-testing {feature} --type=contract     # Domain contracts only
+/l52-testing {feature} --type=impl         # Data implementation only
+/l52-testing {feature} --type=notifier     # Notifier tests only
+/l52-testing {feature} --type=widget       # Widget tests only
+/l52-testing {feature} --type=golden       # Golden tests only
 
 # Verify domain contracts pass
-/testing {feature} --verify-contracts
+/l52-testing {feature} --verify-contracts
 
 # Run full TDD verification
-dart run .claude/skills/testing/scripts/run_tdd.dart {feature}
+dart run .claude/skills/l52-testing/scripts/run_tdd.dart {feature}
 ```
 
 ### JSON Output
@@ -194,7 +194,7 @@ TDD mode outputs structured JSON for automation:
   "tests_generated": 8,
   "helpers_generated": ["anyAuthResult()", "anyUserProfile()"],
   "spies_generated": ["AuthRepositorySpy"],
-  "next_step": "/data auth --tdd"
+  "next_step": "/l52-data auth --tdd"
 }
 ```
 
@@ -202,7 +202,7 @@ See [TDD_INTEGRATION.md](TDD_INTEGRATION.md) for complete integration details.
 
 ## Related Skills
 
-- `/a11y` - Accessibility tests (`textContrastGuideline`, etc.)
-- `/domain` - Generate domain layer (uses testing skill in TDD mode)
-- `/data` - Generate data layer (uses testing skill in TDD mode)
-- `/presentation` - Generate presentation layer (uses testing skill in TDD mode)
+- `/l52-a11y` - Accessibility tests (`textContrastGuideline`, etc.)
+- `/l52-domain` - Generate domain layer (uses testing skill in TDD mode)
+- `/l52-data` - Generate data layer (uses testing skill in TDD mode)
+- `/l52-presentation` - Generate presentation layer (uses testing skill in TDD mode)

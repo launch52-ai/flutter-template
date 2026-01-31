@@ -39,13 +39,13 @@ lib/features/{feature}/data/    ❌ FORBIDDEN
 ```
 
 **Why this matters:**
-- Domain entities are pure Dart - that's `/domain`'s job
-- Data layer handles API/storage - that's `/data`'s job
+- Domain entities are pure Dart - that's `/l52-domain`'s job
+- Data layer handles API/storage - that's `/l52-data`'s job
 - If presentation needs require domain/data updates, STOP and tell user
 
 **If you need to:**
-- Add a field to domain entity → Tell user to run `/domain` first
-- Add a new repository method → Tell user to run `/data` first
+- Add a field to domain entity → Tell user to run `/l52-domain` first
+- Add a new repository method → Tell user to run `/l52-data` first
 - Fix type mismatches → Identify which layer owns the type and tell user
 
 **Allowed: Read-only access to domain layer for:**
@@ -59,7 +59,7 @@ lib/features/{feature}/data/    ❌ FORBIDDEN
 
 ## When to Use This Skill
 
-- After `/data` has implemented repositories
+- After `/l52-data` has implemented repositories
 - When creating screens from spec requirements
 - When adding new screens or actions to existing features
 - User asks to "create screen", "implement UI", "add presentation layer"
@@ -88,7 +88,7 @@ lib/features/{feature}/domain/            # Domain entities
 lib/features/{feature}/data/              # Repository implementation
 ```
 
-If domain/data layers don't exist, ask user to run `/domain` and `/data` first.
+If domain/data layers don't exist, ask user to run `/l52-domain` and `/l52-data` first.
 
 ### Step 2: Analyze UI Requirements
 
@@ -226,10 +226,10 @@ Before finishing presentation layer:
 
 ## Related Skills
 
-- `/data` - Run first to implement repository
-- `/domain` - Creates entities used by presentation
-- `/feature-init` - Initialize feature scaffold
-- `/i18n` - Localize user-facing strings and error messages
-- `/design` - Polish UI/UX patterns after basic implementation
-- `/a11y` - Add accessibility support
-- `/testing` - Create widget tests
+- `/l52-data` - Run first to implement repository
+- `/l52-domain` - Creates entities used by presentation
+- `/l52-feature-init` - Initialize feature scaffold
+- `/l52-i18n` - Localize user-facing strings and error messages
+- `/l52-design` - Polish UI/UX patterns after basic implementation
+- `/l52-a11y` - Add accessibility support
+- `/l52-testing` - Create widget tests

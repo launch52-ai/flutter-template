@@ -517,6 +517,6 @@ expect(
 
 - [firebase-setup-guide.md](firebase-setup-guide.md) - Firebase Console setup
 - [checklist.md](checklist.md) - Implementation verification
-- `/push-notifications` - Firebase project (shared)
-- `/release` - iOS build phases
-- `/i18n` - Consent dialog strings
+- `/l52-push-notifications` - Firebase project (shared)
+- `/l52-release` - iOS build phases
+- `/l52-i18n` - Consent dialog strings

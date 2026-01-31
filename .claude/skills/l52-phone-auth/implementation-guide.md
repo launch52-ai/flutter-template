@@ -229,7 +229,7 @@ PhoneAuthRepository phoneAuthRepository(Ref ref) {
 
 ## UI Integration
 
-Use `/design` skill for:
+Use `/l52-design` skill for:
 - Country picker bottom sheet
 - Phone input field with formatting
 - OTP digit boxes with auto-advance
@@ -259,5 +259,5 @@ See `reference/repositories/mock_phone_auth_repository.dart` for test helpers.
 
 - [checklist.md](checklist.md) - Implementation verification
 - [best-practices-guide.md](best-practices-guide.md) - Security and UX
-- `/design` - UI components
-- `/i18n` - Error messages
+- `/l52-design` - UI components
+- `/l52-i18n` - Error messages

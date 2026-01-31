@@ -23,7 +23,7 @@ Prepare Flutter apps for production release. Handles signing, icons, splash scre
 | Approach | Use When | Signing |
 |----------|----------|---------|
 | **Manual** (this skill) | First release, small team | Local keystore, Xcode |
-| **CI/CD** (`/ci-cd`) | Regular releases, teams | GitHub Secrets, Fastlane |
+| **CI/CD** (`/l52-ci-cd`) | Regular releases, teams | GitHub Secrets, Fastlane |
 
 > **Recommendation:** Start with manual release. Set up CI/CD when you need automation.
 
@@ -40,7 +40,7 @@ Prepare Flutter apps for production release. Handles signing, icons, splash scre
 
 ```bash
 # Audit release readiness
-dart run .claude/skills/release/scripts/check.dart
+dart run .claude/skills/l52-release/scripts/check.dart
 
 # Build release
 flutter build appbundle --release  # Android
@@ -60,7 +60,7 @@ flutter build ipa --release        # iOS
 ### 1. Audit Current State
 
 ```bash
-dart run .claude/skills/release/scripts/check.dart
+dart run .claude/skills/l52-release/scripts/check.dart
 ```
 
 Identifies: Missing keystore, unsigned iOS, missing icons, uncommitted .env files.
@@ -185,9 +185,9 @@ Ready-to-use files in `templates/`:
 
 ## Related Skills
 
-- `/ci-cd` - Automated builds and deployment pipelines
-- `/testing` - Ensure tests pass before release
-- `/a11y` - Accessibility compliance for store approval
+- `/l52-ci-cd` - Automated builds and deployment pipelines
+- `/l52-testing` - Ensure tests pass before release
+- `/l52-a11y` - Accessibility compliance for store approval
 
 ## Common Issues
 

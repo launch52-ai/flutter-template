@@ -171,7 +171,7 @@ curl -I https://example.com/.well-known/apple-app-site-association
 
 ## Related Skills
 
-- `/core` - GoRouter setup (run first)
-- `/push-notifications` - Deep links from notifications
-- `/release` - iOS capabilities, Android signing
-- `/testing` - Deep link integration tests
+- `/l52-core` - GoRouter setup (run first)
+- `/l52-push-notifications` - Deep links from notifications
+- `/l52-release` - iOS capabilities, Android signing
+- `/l52-testing` - Deep link integration tests
