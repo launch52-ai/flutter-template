@@ -18,21 +18,29 @@ Ensure all user-facing text is localized and crystal clear. Every string should 
 - Migrating strings to i18n files
 - Reviewing string quality
 
-## FIRST: Run the Audit Script
+## FIRST: Run Both Checks
 
-**ALWAYS start by running the audit script.** The script path uses the base directory shown at the top of this skill prompt.
+**ALWAYS run both scripts in order.** Use the base directory shown at the top of this skill prompt.
+
+### Step 1: Audit for Hardcoded Strings
 
 ```bash
-# Audit all features (default)
-dart run {BASE_DIR}/scripts/check.dart --audit
-
-# Audit specific feature
-dart run {BASE_DIR}/scripts/check.dart --audit {feature_name}
+dart run {BASE_DIR}/scripts/check.dart --audit {feature}
 ```
 
-Where `{BASE_DIR}` = the "Base directory for this skill" shown above (e.g., `/Users/you/.claude/skills/l52-i18n`).
+If issues found → Fix them by moving strings to the appropriate strings file.
 
-**If a feature argument was provided with `/i18n`, audit only that feature.**
+### Step 2: Quality Check Existing Strings
+
+```bash
+dart run {BASE_DIR}/scripts/check.dart --quality {feature}
+```
+
+If issues found → Fix them using AI and the UX writing rules below.
+
+Where `{BASE_DIR}` = the "Base directory for this skill" shown above.
+
+**If a feature argument was provided with `/i18n`, use it for both commands.**
 
 ## The Golden Rules
 
@@ -60,36 +68,26 @@ Check the project's existing pattern before adding strings.
 
 ## Workflow
 
-### 1. Run Audit Script (REQUIRED)
+### Part 1: Fix Hardcoded Strings
+
+#### 1.1 Run Audit
 
 ```bash
 dart run {BASE_DIR}/scripts/check.dart --audit {feature}
 ```
 
-The script detects: `Text('...')`, `title:`, `hintText:`, `label:`, SnackBar messages, Dialog content.
+Detects: `Text('...')`, `title:`, `hintText:`, `label:`, SnackBar messages, Dialog content.
 
-### 2. Analyze Results
+#### 1.2 Filter Results
 
-Review the script output. Filter out acceptable cases:
-- **Mock/test data** - Sample strings in mock repositories are OK
-- **Debug-only UI** - Dev menu strings don't need localization
-- **Technical placeholders** - Format hints like `5.00` are OK
+Skip acceptable cases:
+- **Mock/test data** - Sample strings in mock repositories
+- **Debug-only UI** - Dev menu strings
+- **Technical placeholders** - Format hints like `5.00`
 
 Focus on **production UI code** in `presentation/` folders.
 
-### 3. Evaluate String Quality
-
-Check each real finding against [ux-writing-guide.md](ux-writing-guide.md). Use patterns from [examples.md](examples.md).
-
-### 4. Add Strings to Localization File
-
-**For i18n YAML (slang):**
-```yaml
-# lib/features/auth/i18n/auth.i18n.yaml
-login:
-  title: Welcome back
-  button: Sign in
-```
+#### 1.3 Move Strings to Localization File
 
 **For static string classes:**
 ```dart
@@ -97,21 +95,70 @@ login:
 final class AuthStrings {
   AuthStrings._();
   static const loginTitle = 'Welcome back';
-  static const loginButton = 'Sign in';
 }
 ```
 
-### 5. Replace Hardcoded Strings
+**For i18n YAML:**
+```yaml
+# lib/features/auth/i18n/auth.i18n.yaml
+login:
+  title: Welcome back
+```
+
+#### 1.4 Replace in Code
 
 ```dart
 // Before
 Text('Welcome back')
 
-// After (slang)
-Text(t.auth.login.title)
+// After
+Text(AuthStrings.loginTitle)  // or Text(t.auth.login.title)
+```
 
-// After (static class)
-Text(AuthStrings.loginTitle)
+### Part 2: Fix String Quality
+
+#### 2.1 Run Quality Script
+
+```bash
+dart run {BASE_DIR}/scripts/check.dart --quality {feature}
+```
+
+Detects: vague errors, generic buttons, jargon, missing action guidance.
+
+#### 2.2 Fix Script Issues
+
+For each issue flagged, rewrite the string following the rules:
+
+| Issue | Fix |
+|-------|-----|
+| Vague error | Be specific: "Could not save photo" |
+| Generic button | Use action: "Delete photo", "Save changes" |
+| Jargon | Plain words: "Sign in" not "Authenticate" |
+| No guidance | Add action: "Check connection and try again" |
+| "Are you sure?" | State outcome: "Delete this photo?" |
+
+#### 2.3 AI Deep Review (REQUIRED)
+
+After the script, **read the string file directly** and review each string:
+
+```bash
+# Read the strings file
+Read: lib/features/{feature}/resources/{feature}_strings.dart
+```
+
+Check what the script can't catch:
+- **Context**: Does this error make sense for the situation?
+- **Consistency**: Are related strings using same terminology?
+- **Completeness**: Do empty states explain what goes there?
+- **Tone**: Is it friendly but not patronizing?
+- **Specificity**: Does it name the actual thing (photo, reminder, account)?
+
+Report findings as a table:
+
+```
+| String | Issue | Suggestion |
+|--------|-------|------------|
+| `errorX` | Too vague | "Could not save reminder. Check your connection." |
 ```
 
 ## Additional Commands
@@ -122,9 +169,6 @@ dart run {BASE_DIR}/scripts/check.dart
 
 # Generate missing i18n skeleton files
 dart run {BASE_DIR}/scripts/check.dart --generate
-
-# Regenerate translations (if using slang)
-dart run build_runner build --delete-conflicting-outputs
 ```
 
 ## Guides

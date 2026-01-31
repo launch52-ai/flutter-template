@@ -1,20 +1,22 @@
 #!/usr/bin/env dart
 // ignore_for_file: avoid_print
 
-/// i18n Check, Audit & Generate Tool
+/// i18n Check, Audit & Quality Tool
 ///
 /// Comprehensive i18n management for Flutter projects:
 /// - Check which features have i18n files
 /// - Generate skeleton i18n files for missing features
 /// - Audit features for hardcoded strings
-/// - Report string quality issues
+/// - Quality check existing strings against UX writing rules
 ///
 /// Usage:
-///   dart run tool/i18n_check.dart              # Check i18n file status
-///   dart run tool/i18n_check.dart --generate   # Generate missing i18n files
-///   dart run tool/i18n_check.dart --audit      # Audit ALL features for hardcoded strings
-///   dart run tool/i18n_check.dart --audit auth # Audit specific feature
-///   dart run tool/i18n_check.dart --help       # Show help
+///   dart run check.dart                    # Check i18n file status
+///   dart run check.dart --generate         # Generate missing i18n files
+///   dart run check.dart --audit            # Audit ALL features for hardcoded strings
+///   dart run check.dart --audit auth       # Audit specific feature
+///   dart run check.dart --quality          # Quality check ALL string files
+///   dart run check.dart --quality auth     # Quality check specific feature
+///   dart run check.dart --help             # Show help
 
 import 'dart:io';
 
@@ -26,6 +28,7 @@ void main(List<String> args) {
   final help = args.contains('--help') || args.contains('-h');
   final generate = args.contains('--generate') || args.contains('-g');
   final audit = args.contains('--audit') || args.contains('-a');
+  final quality = args.contains('--quality') || args.contains('-q');
 
   if (help) {
     _printHelp();
@@ -37,6 +40,21 @@ void main(List<String> args) {
   print('  i18n Check & Audit Tool');
   print('═══════════════════════════════════════════════════════');
   print('');
+
+  if (quality) {
+    // Get feature name if provided
+    final featureIndex = args.indexOf('--quality') + 1;
+    final altFeatureIndex = args.indexOf('-q') + 1;
+    final idx = featureIndex > 0 ? featureIndex : altFeatureIndex;
+
+    String? targetFeature;
+    if (idx > 0 && idx < args.length && !args[idx].startsWith('-')) {
+      targetFeature = args[idx];
+    }
+
+    _runQualityCheck(targetFeature);
+    return;
+  }
 
   if (audit) {
     // Get feature name if provided
@@ -468,61 +486,359 @@ String _truncate(String s, int maxLength) {
 }
 
 // ============================================================
+// QUALITY CHECK FUNCTIONS
+// ============================================================
+
+void _runQualityCheck(String? targetFeature) {
+  final features = _discoverFeatures();
+
+  if (targetFeature != null) {
+    if (!features.contains(targetFeature)) {
+      print('❌ Feature "$targetFeature" not found.');
+      print('   Available features: ${features.join(', ')}');
+      return;
+    }
+    _qualityCheckFeature(targetFeature);
+  } else {
+    print('Quality checking all string files...');
+    print('');
+
+    var totalIssues = 0;
+    var totalStrings = 0;
+
+    for (final feature in features) {
+      final results = _qualityCheckFeature(feature);
+      totalIssues += results.issueCount;
+      totalStrings += results.stringCount;
+    }
+
+    print('');
+    print('═══════════════════════════════════════════════════════');
+    print('  QUALITY CHECK SUMMARY');
+    print('═══════════════════════════════════════════════════════');
+    print('');
+    print('  Strings analyzed: $totalStrings');
+    print('  Quality issues found: $totalIssues');
+    print('');
+
+    if (totalIssues == 0) {
+      print('  ✅ All strings pass quality checks!');
+    } else {
+      print('  ⚠️  Found $totalIssues string(s) that may need improvement.');
+      print('');
+      print('  The issues above should be reviewed and fixed by the AI');
+      print('  using the UX writing guidelines.');
+    }
+    print('');
+  }
+}
+
+({int issueCount, int stringCount}) _qualityCheckFeature(String feature) {
+  final dir = '$featuresDir/$feature';
+  return _qualityCheckDirectory(dir, feature);
+}
+
+({int issueCount, int stringCount}) _qualityCheckDirectory(
+    String dir, String name) {
+  print('───────────────────────────────────────────────────────');
+  print('📁 Quality checking: $name');
+  print('───────────────────────────────────────────────────────');
+
+  // Find string files (both patterns)
+  final stringFiles = <String>[];
+
+  // Pattern 1: resources/*_strings.dart
+  final resourcesDir = Directory('$dir/resources');
+  if (resourcesDir.existsSync()) {
+    stringFiles.addAll(
+      resourcesDir
+          .listSync()
+          .whereType<File>()
+          .where((f) => f.path.endsWith('_strings.dart'))
+          .map((f) => f.path),
+    );
+  }
+
+  // Pattern 2: i18n/*.i18n.yaml
+  final i18nDir = Directory('$dir/i18n');
+  if (i18nDir.existsSync()) {
+    stringFiles.addAll(
+      i18nDir
+          .listSync()
+          .whereType<File>()
+          .where((f) => f.path.endsWith('.i18n.yaml'))
+          .map((f) => f.path),
+    );
+  }
+
+  if (stringFiles.isEmpty) {
+    print('  ⚠️  No string files found');
+    print('');
+    return (issueCount: 0, stringCount: 0);
+  }
+
+  var totalIssues = 0;
+  var totalStrings = 0;
+
+  for (final file in stringFiles) {
+    final results = _analyzeStringFile(file, name);
+    totalIssues += results.issues.length;
+    totalStrings += results.stringCount;
+
+    if (results.issues.isNotEmpty) {
+      print('');
+      print('  📄 ${file.split('/').last}');
+      for (final issue in results.issues) {
+        print('     Line ${issue.line}: ${issue.rule}');
+        print('       "${_truncate(issue.content, 50)}"');
+        print('       → ${issue.suggestion}');
+      }
+    }
+  }
+
+  if (totalIssues == 0) {
+    print('  ✅ All $totalStrings strings pass quality checks');
+  }
+  print('');
+
+  return (issueCount: totalIssues, stringCount: totalStrings);
+}
+
+({List<QualityIssue> issues, int stringCount}) _analyzeStringFile(
+    String filePath, String featureName) {
+  final file = File(filePath);
+  final content = file.readAsStringSync();
+  final lines = content.split('\n');
+  final issues = <QualityIssue>[];
+  var stringCount = 0;
+
+  final isDart = filePath.endsWith('.dart');
+
+  for (var i = 0; i < lines.length; i++) {
+    final line = lines[i];
+    final lineNum = i + 1;
+
+    // Skip comments
+    final trimmed = line.trim();
+    if (trimmed.startsWith('//') || trimmed.startsWith('#')) continue;
+
+    // Extract string values
+    List<String> strings = [];
+
+    if (isDart) {
+      // Pattern: static const foo = 'value';
+      final dartMatch =
+          RegExp(r'''=\s*(['"])(.*?)\1\s*;''').firstMatch(line);
+      if (dartMatch != null) {
+        strings.add(dartMatch.group(2) ?? '');
+      }
+    } else {
+      // YAML: key: value
+      final yamlMatch = RegExp(r''':\s*(.+)$''').firstMatch(line);
+      if (yamlMatch != null) {
+        var value = yamlMatch.group(1)?.trim() ?? '';
+        // Remove quotes if present
+        if ((value.startsWith("'") && value.endsWith("'")) ||
+            (value.startsWith('"') && value.endsWith('"'))) {
+          value = value.substring(1, value.length - 1);
+        }
+        if (value.isNotEmpty && !value.startsWith('#')) {
+          strings.add(value);
+        }
+      }
+    }
+
+    for (final str in strings) {
+      if (str.isEmpty) continue;
+      stringCount++;
+
+      // Check quality rules
+      final issue = _checkStringQuality(str, lineNum);
+      if (issue != null) {
+        issues.add(issue);
+      }
+    }
+  }
+
+  return (issues: issues, stringCount: stringCount);
+}
+
+QualityIssue? _checkStringQuality(String str, int line) {
+  final lower = str.toLowerCase();
+
+  // Rule 1: Vague error messages
+  if (_vagueErrorPatterns.any((p) => lower == p || lower.startsWith('$p '))) {
+    return QualityIssue(
+      line: line,
+      content: str,
+      rule: 'Vague error',
+      suggestion: 'Be specific: what failed and what should user do?',
+    );
+  }
+
+  // Rule 2: Generic/unclear buttons
+  if (_genericButtonPatterns.contains(lower)) {
+    return QualityIssue(
+      line: line,
+      content: str,
+      rule: 'Generic button',
+      suggestion: 'Use action verb: "Delete photo", "Save changes", "Sign out"',
+    );
+  }
+
+  // Rule 3: Jargon
+  for (final jargon in _jargonPatterns.entries) {
+    if (lower.contains(jargon.key)) {
+      return QualityIssue(
+        line: line,
+        content: str,
+        rule: 'Jargon: "${jargon.key}"',
+        suggestion: 'Use plain language: "${jargon.value}"',
+      );
+    }
+  }
+
+  // Rule 4: Error without action
+  if (_isErrorString(lower) && !_hasActionGuidance(lower)) {
+    return QualityIssue(
+      line: line,
+      content: str,
+      rule: 'Error without guidance',
+      suggestion: 'Add what user should do: "Check your connection and try again"',
+    );
+  }
+
+  // Rule 5: Confusing confirmation patterns
+  if (lower.contains('are you sure')) {
+    return QualityIssue(
+      line: line,
+      content: str,
+      rule: '"Are you sure?" pattern',
+      suggestion: 'State the outcome: "Delete this photo?" or "Sign out of your account?"',
+    );
+  }
+
+  return null;
+}
+
+bool _isErrorString(String lower) {
+  return lower.contains('error') ||
+      lower.contains('failed') ||
+      lower.contains('could not') ||
+      lower.contains('couldn\'t') ||
+      lower.contains('unable to') ||
+      lower.contains('cannot') ||
+      lower.contains('can\'t');
+}
+
+bool _hasActionGuidance(String lower) {
+  return lower.contains('try again') ||
+      lower.contains('check') ||
+      lower.contains('please') ||
+      lower.contains('contact') ||
+      lower.contains('verify') ||
+      lower.contains('make sure') ||
+      lower.contains('ensure');
+}
+
+const _vagueErrorPatterns = [
+  'error',
+  'error occurred',
+  'an error occurred',
+  'something went wrong',
+  'failed',
+  'operation failed',
+  'request failed',
+  'unknown error',
+  'unexpected error',
+  'oops',
+];
+
+const _genericButtonPatterns = {
+  'ok',
+  'okay',
+  'yes',
+  'no',
+  'submit',
+  'confirm',
+  'continue',
+  'proceed',
+  'done',
+};
+
+const _jargonPatterns = {
+  'invalid': 'not recognized / incorrect',
+  'authenticate': 'sign in',
+  'credentials': 'email and password',
+  'terminate': 'end / stop / close',
+  'execute': 'run / start',
+  'initialize': 'set up / start',
+  'parameter': 'setting / option',
+  'configuration': 'settings',
+  'unauthorized': 'not signed in / no permission',
+  'forbidden': 'not allowed',
+  'deprecated': 'no longer supported',
+  'null': 'missing / empty',
+  'exception': 'problem / error',
+  'timeout': 'took too long',
+  'malformed': 'incorrect format',
+};
+
+class QualityIssue {
+  final int line;
+  final String content;
+  final String rule;
+  final String suggestion;
+
+  QualityIssue({
+    required this.line,
+    required this.content,
+    required this.rule,
+    required this.suggestion,
+  });
+}
+
+// ============================================================
 // CHECK FUNCTIONS
 // ============================================================
 
 void _printHelp() {
   print('''
-i18n Check & Audit Tool
+i18n Check, Audit & Quality Tool
 
-Manages i18n files and audits for hardcoded strings.
+Manages i18n files, audits for hardcoded strings, and checks string quality.
 
 USAGE:
-  dart run tool/i18n_check.dart [options] [feature]
+  dart run check.dart [options] [feature]
 
 OPTIONS:
-  -g, --generate     Generate skeleton i18n files for features missing them
   -a, --audit        Audit features for hardcoded strings
+  -q, --quality      Quality check existing string files
+  -g, --generate     Generate skeleton i18n files for features missing them
   -h, --help         Show this help message
 
 EXAMPLES:
-  dart run tool/i18n_check.dart              # Check i18n file status
-  dart run tool/i18n_check.dart -g           # Generate missing i18n files
-  dart run tool/i18n_check.dart -a           # Audit ALL features
-  dart run tool/i18n_check.dart -a auth      # Audit specific feature
-  dart run tool/i18n_check.dart --audit settings
+  dart run check.dart                  # Check i18n file status
+  dart run check.dart -a               # Audit ALL features for hardcoded
+  dart run check.dart -a auth          # Audit specific feature
+  dart run check.dart -q               # Quality check ALL string files
+  dart run check.dart -q credits       # Quality check specific feature
+  dart run check.dart -g               # Generate missing i18n files
 
-FILE STRUCTURE:
-  lib/
-  ├── core/i18n/
-  │   ├── common.i18n.yaml      → t.common.*
-  │   └── translations.g.dart   → Generated (all namespaces merged)
-  └── features/
-      ├── auth/i18n/
-      │   └── auth.i18n.yaml    → t.auth.*
-      └── {feature}/i18n/
-          └── {feature}.i18n.yaml → t.{feature}.*
+QUALITY RULES:
+  The quality check flags:
+  - Vague errors: "Error occurred", "Something went wrong"
+  - Generic buttons: "OK", "Yes", "Submit" (without context)
+  - Jargon: "Invalid", "Authenticate", "Credentials"
+  - Errors without guidance: Missing "try again", "check your..."
+  - Confusing confirmations: "Are you sure?" patterns
 
-USAGE IN CODE:
-  import 'package:your_app/core/i18n/translations.g.dart';
-
-  // Common strings
-  Text(t.common.buttons.cancel)
-
-  // Feature strings
-  Text(t.auth.login.title)
-
-AUDIT OUTPUT:
-  The audit command scans Dart files for:
-  - Text() widgets with hardcoded strings
-  - Hardcoded title, label, hint properties
-  - SnackBar messages
-  - AppBar titles
-
-  It will suggest appropriate i18n keys for each finding.
-
-UX WRITING:
-  See 07-UX_WRITING_GUIDE.md for string quality guidelines.
+UX WRITING PRINCIPLES:
+  1. Be specific, not vague - "Could not save photo" not "Error"
+  2. Use plain words - "Sign in" not "Authenticate"
+  3. Buttons complete "I want to ___" - "Delete photo" not "OK"
+  4. Errors say what to do - "Check connection and try again"
+  5. No confusing dialogs - Never [Cancel] [OK] together
 ''');
 }
 
