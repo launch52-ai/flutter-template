@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # i18n - Localization & UX Writing
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Ensure all user-facing text is localized and crystal clear. Every string should be understandable by a 10-year-old or non-native English speaker.
 
 ## When to Use This Skill

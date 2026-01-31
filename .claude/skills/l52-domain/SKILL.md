@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Domain - Domain Layer Generator
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Generate domain layer components from feature specifications. Creates the foundation that data and presentation layers build upon.
 
 ## Philosophy

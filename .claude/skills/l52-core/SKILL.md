@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Core - Infrastructure Generation
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Generates the core infrastructure that all features depend on.
 
 ## When to Use This Skill

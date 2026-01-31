@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Feature Init - Initialize Feature Structure
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Initialize a new feature with Clean Architecture folder structure and skeleton files. Creates the scaffold, then `/l52-domain` and `/l52-data` fill in the details.
 
 ## CRITICAL: Always Create Scaffold Files

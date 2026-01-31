@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # Analytics & Crash Reporting
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Track user behavior, monitor app health, and debug production issues. Supports multiple providers with a plug-and-play architecture.
 
 ## When to Use This Skill

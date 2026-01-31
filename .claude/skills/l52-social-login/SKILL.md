@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # Social Login - Google & Apple Sign-In
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Google and Apple authentication with Supabase or custom backend.
 
 ## When to Use This Skill

@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # Plan - Feature Planning & Specification
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Comprehensive feature planning that understands the WHOLE feature before any implementation begins. Creates a specification document that provides full context to all other skills.
 
 ## Why Planning First?

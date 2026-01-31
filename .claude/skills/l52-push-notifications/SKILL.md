@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # Push Notifications - Firebase Cloud Messaging
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Push notifications with FCM for iOS and Android. Handles foreground, background, and terminated app states.
 
 ## When to Use This Skill

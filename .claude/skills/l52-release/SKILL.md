@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Release - App Store & Play Store Preparation
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Prepare Flutter apps for production release. Handles signing, icons, splash screens, and store setup.
 
 ## When to Use This Skill

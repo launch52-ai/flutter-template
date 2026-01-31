@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # In-App Purchases & Subscriptions
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Monetize your Flutter app with RevenueCat - the industry-standard solution for in-app purchases and subscriptions. Handles cross-platform billing, receipt validation, and subscription management.
 
 ## When to Use This Skill

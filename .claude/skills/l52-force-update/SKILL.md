@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # Force Update / App Update
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Implement version checking and in-app update prompts to keep users on supported app versions.
 
 ## When to Use This Skill

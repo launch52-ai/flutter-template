@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # CI/CD - Automated Build & Deploy
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Set up robust CI/CD pipelines for Flutter apps using GitHub Actions and Fastlane. Automates the entire flow from code push to app store deployment.
 
 ## When to Use This Skill

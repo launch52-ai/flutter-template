@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # Network Connectivity
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Global network connectivity monitoring with automatic offline banner display. Uses smart detection that combines `connectivity_plus` status with actual API request success to avoid false negatives from government blocks or captive portals.
 
 ## When to Use This Skill

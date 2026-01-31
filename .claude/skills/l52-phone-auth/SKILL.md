@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Phone Auth - Phone OTP Authentication
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Phone number OTP authentication with Clean Architecture. Backend handles security (OTP generation, rate limiting). Mobile handles UX (formatting, countdown, error display).
 
 ## When to Use This Skill

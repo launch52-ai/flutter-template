@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion, WebFetch
 
 # Deep Linking - Universal Links & App Links
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Deep linking setup for iOS (Universal Links) and Android (App Links) with GoRouter integration.
 
 ## When to Use This Skill

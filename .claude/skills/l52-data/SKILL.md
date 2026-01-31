@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Data - Data Layer Generator
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Generate data layer components that implement domain interfaces and handle external data sources.
 
 ## Philosophy

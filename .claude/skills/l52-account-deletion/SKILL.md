@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Account Deletion
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Implements GDPR, App Store, and Play Store compliant account deletion with proper confirmation flows, backend data cleanup, and secure sign-out. Required by both Apple App Store and Google Play Store guidelines for apps with account creation.
 
 ## When to Use This Skill

@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Offline - Offline-First Architecture
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Implement offline-first architecture with local storage, automatic sync, and conflict resolution. Supports multiple patterns from fully offline apps to online-first with offline fallback.
 
 ## When to Use This Skill

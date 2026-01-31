@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # a11y - Accessibility Implementation
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Make Flutter apps accessible to everyone. Semantic labels, screen reader support, WCAG compliance.
 
 ## When to Use This Skill

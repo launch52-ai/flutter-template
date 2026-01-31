@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 
 # Design - UI/UX Implementation
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Create interfaces that feel intuitive, responsive, and delightful. Focus on the small details that distinguish polished apps from mediocre ones.
 
 ## When to Use This Skill

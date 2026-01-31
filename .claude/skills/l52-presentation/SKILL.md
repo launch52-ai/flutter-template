@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Presentation - Presentation Layer Generator
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Generate presentation layer components that handle UI state and render screens using domain entities.
 
 ## Philosophy

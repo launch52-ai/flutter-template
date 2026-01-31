@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # Testing - Write & Review Tests
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Write high-quality, maintainable tests following Clean Architecture patterns. Every test should clearly express intent and catch regressions without being brittle.
 
 ## When to Use This Skill

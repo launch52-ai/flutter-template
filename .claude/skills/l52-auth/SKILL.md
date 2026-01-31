@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Auth - Base Authentication Scaffold
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Creates the authentication feature foundation with Clean Architecture. This skill generates shared infrastructure that `/l52-social-login` and `/l52-phone-auth` build upon.
 
 ## When to Use This Skill

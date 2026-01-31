@@ -6,6 +6,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 
 # Skill Creation & Validation
 
+**Follow shared rules in [l52-base](../l52-base/SKILL.md).**
+
 Create complete, well-structured Claude Code skills. Generates scaffolds, validates skill completeness, and ensures quality standards.
 
 ## When to Use This Skill
