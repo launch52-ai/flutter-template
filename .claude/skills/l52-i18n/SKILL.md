@@ -152,6 +152,32 @@ Check what the script can't catch:
 - **Completeness**: Do empty states explain what goes there?
 - **Tone**: Is it friendly but not patronizing?
 - **Specificity**: Does it name the actual thing (photo, reminder, account)?
+- **Pluralization**: Do countable nouns use proper plural forms?
+
+**Pluralization Review:**
+
+Look for strings that display counts and check they handle all cases:
+
+| Pattern | Issue | Fix |
+|---------|-------|-----|
+| `"$n items"` | Missing zero/one cases | Use plural syntax with zero, one, other |
+| `"1 item"` hardcoded | Won't work for other counts | Use interpolation with plural |
+| `"items: $n"` | Noun doesn't change with count | Use proper plural form |
+
+**Slang plural syntax:**
+```yaml
+# Correct plural handling
+itemCount(n):
+  zero: No items
+  one: 1 item
+  other: $n items
+
+daysLeft(n):
+  one: 1 day left
+  other: $n days left
+```
+
+**Common nouns needing pluralization:** item, file, photo, message, reminder, task, comment, user, result, day, hour, minute, credit, call, attempt, error, update
 
 Report findings as a table:
 
@@ -159,6 +185,7 @@ Report findings as a table:
 | String | Issue | Suggestion |
 |--------|-------|------------|
 | `errorX` | Too vague | "Could not save reminder. Check your connection." |
+| `itemsFound` | Missing plural cases | Add zero/one/other variants |
 ```
 
 ## Additional Commands
@@ -187,6 +214,7 @@ dart run {BASE_DIR}/scripts/check.dart --generate
 - [ ] If button: completes "I want to ___"
 - [ ] If confirmation: buttons clearly show outcomes
 - [ ] No jargon (credentials, authenticate, invalid, terminate)
+- [ ] Counts use proper pluralization (zero, one, other)
 
 ## Related Skills
 

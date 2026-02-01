@@ -47,20 +47,23 @@ targets:
 
 Modular per-feature localization with namespace merging. Each feature has its own i18n file, all merged into a single `t` object.
 
+**IMPORTANT: Use camelCase for filenames.** Slang uses the filename prefix as the namespace. Snake_case filenames (e.g., `force_update_en.i18n.yaml`) will be silently ignored. Use camelCase instead (e.g., `forceUpdate_en.i18n.yaml`).
+
 ```
 lib/
 ├── core/i18n/
-│   ├── common.i18n.yaml        → t.common.*
+│   ├── common_en.i18n.yaml     → t.common.*
 │   └── translations.g.dart     → Generated (all namespaces merged)
 └── features/
     ├── auth/i18n/
-    │   └── auth.i18n.yaml      → t.auth.*
+    │   └── auth_en.i18n.yaml   → t.auth.*
     ├── dashboard/i18n/
-    │   └── dashboard.i18n.yaml → t.dashboard.*
-    ├── onboarding/i18n/
-    │   └── onboarding.i18n.yaml → t.onboarding.*
+    │   └── dashboard_en.i18n.yaml → t.dashboard.*
+    ├── forceUpdate/i18n/
+    │   └── forceUpdate_en.i18n.yaml → t.forceUpdate.*  ✓ camelCase
+    │   # NOT: force_update_en.i18n.yaml  ✗ will be ignored
     └── settings/i18n/
-        └── settings.i18n.yaml  → t.settings.*
+        └── settings_en.i18n.yaml → t.settings.*
 ```
 
 ---
