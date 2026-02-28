@@ -134,18 +134,26 @@ bundle exec fastlane release
 
 ### Service Account Setup (detailed)
 
-1. **Google Play Console** → [Setup → API access](https://play.google.com/console/developers/api-access)
-2. If prompted, link to a Google Cloud project (or create one)
-3. Under **Service accounts**, click **Create new service account** — this opens Google Cloud Console
-4. In **Google Cloud Console**:
-   - Name the service account (e.g., "fastlane")
-   - Skip the optional role/permissions steps, click **Done**
-   - Click the new service account → **Keys** tab → **Add Key** → **Create new key** → select **JSON** → **Create**
-   - A `.json` file downloads — save it as `android/fastlane/service-account.json`
-5. Back in **Play Console** → Setup → API access → click **Grant access** next to the new service account
-6. Set permissions: **Admin** (or at minimum: Manage releases, Manage app information)
-7. Click **Invite user** → confirm
-8. **Important:** It can take up to 24 hours for the service account to be fully active
+> **Note:** The Play Console's "API access" page (often mentioned in docs) is only available for **organization** accounts. For **individual** developer accounts, use the approach below instead.
+
+#### Step 1: Google Cloud Console
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Select an existing project (e.g., your Firebase project) or create a new one
+3. Search for **"Google Play Android Developer API"** in the top search bar → **Enable** it
+4. Go to **IAM & Admin** → **Service Accounts** → **Create Service Account**
+5. Name it (e.g., "fastlane"), skip the optional role/permissions steps → **Done**
+6. Click the new service account → **Keys** tab → **Add Key** → **Create new key** → select **JSON** → **Create**
+7. A `.json` file downloads — save it as `android/fastlane/service-account.json`
+
+#### Step 2: Play Console — invite the service account
+
+1. Go to [Google Play Console](https://play.google.com/console) → **Users and permissions** (left sidebar)
+2. Click **Invite new users**
+3. Paste the service account email (e.g., `fastlane@your-project.iam.gserviceaccount.com`)
+4. Under **App permissions**, add your app and grant **Admin** access (or at minimum: Manage releases, Manage app information)
+5. Click **Invite user** → confirm
+6. **Important:** It can take up to 24 hours for the service account to be fully active
 
 ### Verify Service Account
 
