@@ -1,0 +1,52 @@
+# iOS Fastfile (Simple - Xcode Automatic Signing)
+#
+# Copy to: ios/fastlane/Fastfile
+# Use this when you have Xcode automatic signing (no Match needed).
+# Requires: ios/fastlane/.env with API key credentials.
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build release IPA"
+  lane :build do
+    Dir.chdir("..") do
+      sh("flutter", "build", "ipa", "--release")
+    end
+  end
+
+  desc "Deploy to TestFlight"
+  lane :beta do
+    build
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+      key_filepath: ENV["APP_STORE_CONNECT_KEY_PATH"],
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: "../build/ios/ipa/#{ENV['APP_NAME'] || 'Runner'}.ipa",
+      skip_waiting_for_build_processing: true,
+    )
+  end
+
+  desc "Deploy to App Store"
+  lane :release do
+    build
+
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+      key_filepath: ENV["APP_STORE_CONNECT_KEY_PATH"],
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      ipa: "../build/ios/ipa/#{ENV['APP_NAME'] || 'Runner'}.ipa",
+      skip_metadata: true,
+      skip_screenshots: true,
+      precheck_include_in_app_purchases: false,
+    )
+  end
+end

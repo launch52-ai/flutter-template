@@ -39,11 +39,29 @@ android/
 
 ---
 
-## 3. iOS Code Signing with Match
+## 3. iOS Code Signing
 
-Match stores certificates in a private git repo, shared across team/CI.
+### Option A: Xcode Automatic Signing (simplest, solo/small team)
 
-### Initial Setup (run once by admin)
+If you use Xcode's automatic code signing, Fastlane can use `flutter build ipa` directly — no Match needed. This is the recommended approach for solo developers or small teams deploying from a local machine.
+
+The Fastfile simply calls:
+
+```ruby
+lane :build do
+  Dir.chdir("..") do
+    sh("flutter", "build", "ipa", "--release")
+  end
+end
+```
+
+Xcode handles all signing automatically. The IPA output is at `build/ios/ipa/YourApp.ipa`.
+
+### Option B: Match (team/CI)
+
+Match stores certificates in a private git repo, shared across team/CI. Use this when multiple developers or CI need to sign builds.
+
+#### Initial Setup (run once by admin)
 
 ```bash
 cd ios
@@ -52,13 +70,13 @@ fastlane match development             # Generate dev certs
 fastlane match appstore                # Generate distribution certs
 ```
 
-### Sync (team members / CI)
+#### Sync (team members / CI)
 
 ```bash
 fastlane match appstore --readonly     # Download, don't modify
 ```
 
-### Match Repository
+#### Match Repository
 
 Create a **private** repo for certificates:
 - `github.com/yourorg/certificates`
@@ -71,14 +89,17 @@ Create a **private** repo for certificates:
 ```bash
 cd ios
 
-# Sync certificates
-bundle exec fastlane sync_appstore
-
 # Build release IPA
-bundle exec fastlane build_release
+bundle exec fastlane build
 
-# Deploy to TestFlight
+# Deploy to TestFlight (builds + uploads)
 bundle exec fastlane beta
+
+# Deploy to App Store (builds + uploads)
+bundle exec fastlane release
+
+# If using Match, sync certificates first
+bundle exec fastlane sync_appstore
 ```
 
 ---
@@ -89,13 +110,16 @@ bundle exec fastlane beta
 cd android
 
 # Build release AAB
-bundle exec fastlane build_release
+bundle exec fastlane build
 
-# Deploy to Play Store (internal track)
-bundle exec fastlane deploy track:internal
+# Deploy to Play Store internal testing
+bundle exec fastlane internal
 
-# Deploy to beta
-bundle exec fastlane deploy track:beta
+# Deploy to Play Store beta (open testing)
+bundle exec fastlane beta
+
+# Promote internal to production
+bundle exec fastlane release
 ```
 
 ---
@@ -104,37 +128,84 @@ bundle exec fastlane deploy track:beta
 
 ### Prerequisites
 
-1. Upload first AAB manually to Play Console
+1. Upload first AAB manually to Play Console (required before API uploads work)
 2. Create Google Cloud service account
 3. Grant service account access in Play Console
 
-### Service Account Setup
+### Service Account Setup (detailed)
 
-1. [Google Cloud Console](https://console.cloud.google.com/) → Create project
-2. Enable "Google Play Android Developer API"
-3. IAM → Service Accounts → Create
-4. Download JSON key
-5. Play Console → Users & Permissions → Invite user
-6. Add service account email with "Release manager" role
+1. **Google Play Console** → [Setup → API access](https://play.google.com/console/developers/api-access)
+2. If prompted, link to a Google Cloud project (or create one)
+3. Under **Service accounts**, click **Create new service account** — this opens Google Cloud Console
+4. In **Google Cloud Console**:
+   - Name the service account (e.g., "fastlane")
+   - Skip the optional role/permissions steps, click **Done**
+   - Click the new service account → **Keys** tab → **Add Key** → **Create new key** → select **JSON** → **Create**
+   - A `.json` file downloads — save it as `android/fastlane/service-account.json`
+5. Back in **Play Console** → Setup → API access → click **Grant access** next to the new service account
+6. Set permissions: **Admin** (or at minimum: Manage releases, Manage app information)
+7. Click **Invite user** → confirm
+8. **Important:** It can take up to 24 hours for the service account to be fully active
+
+### Verify Service Account
+
+```bash
+cd android && bundle exec fastlane run validate_play_store_json_key json_key:fastlane/service-account.json
+```
+
+### Security
+
+- Add `**/service-account*.json` to `.gitignore` — never commit this file
+- For CI, store the JSON contents as a GitHub secret (`GOOGLE_SERVICE_ACCOUNT_KEY`)
 
 ---
 
 ## 7. App Store Connect API
 
-### Create API Key
+### Create API Key (detailed)
 
-1. [App Store Connect](https://appstoreconnect.apple.com/) → Users → Keys
-2. Generate key with "App Manager" access
-3. Download `.p8` file (only once!)
-4. Note Key ID and Issuer ID
+1. Go to [App Store Connect → Users and Access → Integrations → App Store Connect API](https://appstoreconnect.apple.com/access/integrations/api)
+2. Click **Generate API Key**
+3. Name it (e.g., "Fastlane") and give it **App Manager** role
+4. Click **Generate**
+5. **Download the `.p8` file immediately** — you can only download it **once**
+6. Note the **Key ID** (shown in the table) and **Issuer ID** (shown above the table)
+
+### Store the Key
+
+Save the `.p8` file somewhere persistent outside the project:
+
+```bash
+mkdir -p ~/.appstoreconnect
+mv ~/Downloads/AuthKey_XXXXXXXXXX.p8 ~/.appstoreconnect/
+```
+
+### Local Usage
+
+Create `ios/fastlane/.env` (gitignored) with:
+
+```
+APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID
+APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID
+APP_STORE_CONNECT_KEY_PATH=/Users/you/.appstoreconnect/AuthKey_YOUR_KEY_ID.p8
+```
+
+The Fastfile reads these via `ENV["..."]`. Fastlane automatically loads `.env` files.
 
 ### Encode for CI
 
+For CI environments, base64-encode the key and store as a secret:
+
 ```bash
-base64 -i AuthKey_XXXXXXXX.p8
+base64 -i ~/.appstoreconnect/AuthKey_XXXXXXXXXX.p8
 ```
 
-Store as `APP_STORE_CONNECT_API_KEY` secret.
+Store as `APP_STORE_CONNECT_API_KEY` GitHub secret. Use `key_content` + `is_key_content_base64: true` instead of `key_filepath` in CI Fastfile.
+
+### Security
+
+- Add `*.p8` and `ios/fastlane/.env*` to `.gitignore`
+- Never commit API keys or `.p8` files
 
 ---
 
@@ -232,23 +303,50 @@ fastlane supply --skip_upload_apk --skip_upload_aab
 
 ---
 
-## 12. Local Testing
+## 12. Required .gitignore Entries
+
+Add these to your project `.gitignore`:
+
+```gitignore
+# Fastlane
+*/fastlane/report.xml
+*/fastlane/README.md
+*/fastlane/screenshots
+*/fastlane/test_output
+
+# Credentials (never commit)
+*.p8
+**/service-account*.json
+android/fastlane/.env*
+ios/fastlane/.env*
+```
+
+---
+
+## 13. Local Testing
 
 Always test locally before CI:
 
 ```bash
-# iOS
+# iOS - build only (verify signing works)
+cd ios && bundle exec fastlane build
+
+# iOS - build + upload to TestFlight
 cd ios && bundle exec fastlane beta
 
-# Android
-cd android && bundle exec fastlane deploy track:internal
+# Android - build only
+cd android && bundle exec fastlane build
+
+# Android - build + upload to internal track
+cd android && bundle exec fastlane internal
 ```
 
 ---
 
 ## Summary
 
-1. Run `setup.dart` to generate Fastlane files
-2. Set up Match repo (iOS) or service account (Android)
-3. Add secrets to GitHub
-4. Test locally before relying on CI
+1. Run `setup.dart` or create Fastlane files manually from templates
+2. Set up App Store Connect API key (iOS) and Play Store service account (Android)
+3. Create `.env` files for local credentials (gitignored)
+4. For CI, add secrets to GitHub
+5. Test locally before relying on CI
